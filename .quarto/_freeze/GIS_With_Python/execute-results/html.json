@@ -1,0 +1,11 @@
+{
+  "hash": "65d1561b45c1de339fa304fd7e39e5f1",
+  "result": {
+    "markdown": "---\ntitle: Doing GIS with Python\nformat:\n  html:\n    code-fold: false\n---\n\n## Start Python and Import the Data\n\nA test of using a python venv in QMD\n\n::: {.cell execution_count=1}\n``` {.python .cell-code}\n# Import Packages\nimport geopandas as gpd\nimport matplotlib.pyplot as plt\n\n# Read Data\nBC_subDivs = gpd.read_file('Data/SimplyAnalytics_Shapefiles_2023-02-02_23_07_59_7fa10dab487cee919a8d7e30ddf85ff3.shp')\n\n# Rename Columns\nBC_subDivs = BC_subDivs.rename(columns = {\n  'VALUE0':'Pop_Indigenous',\n  'VALUE1':'Pop_Total',\n  'VALUE2':'Pop_Visible_Minority'\n})\n\n# Project to BC Albers\nBC_subDivs = BC_subDivs.to_crs(3005)\n\n# Calculate White and Non-White Population Totals\nBC_subDivs['Pop_NonWhite'] = BC_subDivs[['Pop_Indigenous','Pop_Visible_Minority']].sum(axis=1)\nBC_subDivs['Pop_White'] = BC_subDivs['Pop_Total'] - BC_subDivs['Pop_NonWhite']\n\n\n# Export to .shp and .geojson\nBC_subDivs.to_file('Data/BC_subDivs_2022.shp')\nBC_subDivs.to_file('Data/BC_subDivs_2022.geojson',driver='GeoJSON')\n\n# Make a Map\nfig,ax=plt.subplots(figsize=(6,6))\nBC_subDivs.plot(column='Pop_Total',ax=ax,edgecolor='k',legend=True)\nax.set_title('Population by BC Sub-Divison 2022')\n```\n\n::: {.cell-output .cell-output-stderr}\n```\nC:\\Users\\User\\AppData\\Local\\Temp\\ipykernel_28868\\347104222.py:24: UserWarning: Column names longer than 10 characters will be truncated when saved to ESRI Shapefile.\n  BC_subDivs.to_file('Data/BC_subDivs_2022.shp')\n```\n:::\n\n::: {.cell-output .cell-output-display execution_count=2}\n```\nText(0.5, 1.0, 'Population by BC Sub-Divison 2022')\n```\n:::\n\n::: {.cell-output .cell-output-display}\n![](GIS_With_Python_files/figure-html/cell-2-output-3.png){width=511 height=471}\n:::\n:::\n\n\n",
+    "supporting": [
+      "GIS_With_Python_files"
+    ],
+    "filters": [],
+    "includes": {}
+  }
+}

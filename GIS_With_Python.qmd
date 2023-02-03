@@ -1,0 +1,47 @@
+---
+title: "Doing GIS with Python"
+format:
+  html:
+    code-fold: false
+jupyter: python3
+---
+
+## Start Python and Import the Data
+
+A test of using a python venv in QMD
+
+
+
+```{python}
+# Import Packages
+import geopandas as gpd
+import matplotlib.pyplot as plt
+
+# Read Data
+BC_subDivs = gpd.read_file('Data/SimplyAnalytics_Shapefiles_2023-02-02_23_07_59_7fa10dab487cee919a8d7e30ddf85ff3.shp')
+
+# Rename Columns
+BC_subDivs = BC_subDivs.rename(columns = {
+  'VALUE0':'Pop_Indigenous',
+  'VALUE1':'Pop_Total',
+  'VALUE2':'Pop_Visible_Minority'
+})
+
+# Project to BC Albers
+BC_subDivs = BC_subDivs.to_crs(3005)
+
+# Calculate White and Non-White Population Totals
+BC_subDivs['Pop_NonWhite'] = BC_subDivs[['Pop_Indigenous','Pop_Visible_Minority']].sum(axis=1)
+BC_subDivs['Pop_White'] = BC_subDivs['Pop_Total'] - BC_subDivs['Pop_NonWhite']
+
+
+# Export to .shp and .geojson
+BC_subDivs.to_file('Data/BC_subDivs_2022.shp')
+BC_subDivs.to_file('Data/BC_subDivs_2022.geojson',driver='GeoJSON')
+
+# Make a Map
+fig,ax=plt.subplots(figsize=(6,6))
+BC_subDivs.plot(column='Pop_Total',ax=ax,edgecolor='k',legend=True)
+ax.set_title('Population by BC Sub-Divison 2022')
+
+```
