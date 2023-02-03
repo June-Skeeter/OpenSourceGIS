@@ -15,4 +15,12 @@ Download the latest version of QGIS here ...
 
 * Data is in Lat/Long WGS 1984
 
-3 Intersect points with sub divisions 
+3 Intersect points with sub divisions
+
+* We want to count number of incidents per subdivision
+
+4 Calculate rate of police involved deaths
+
+* Divide total deaths per subdivision by total population per subdivision
+
+5 Map the deaths per subdivision
