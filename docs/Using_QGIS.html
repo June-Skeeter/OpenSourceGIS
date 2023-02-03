@@ -88,6 +88,14 @@ ul.task-list li input[type="checkbox"] {
     <a class="nav-link" href="./about.html">
  <span class="menu-text">About</span></a>
   </li>  
+  <li class="nav-item">
+    <a class="nav-link active" href="./Using_QGIS.html" aria-current="page">
+ <span class="menu-text">Using QGIS</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./GIS_With_Python.html">
+ <span class="menu-text">Doing GIS with Python</span></a>
+  </li>  
 </ul>
               <div id="quarto-search" class="" title="Search"></div>
           </div> <!-- /navcollapse -->
@@ -104,7 +112,8 @@ ul.task-list li input[type="checkbox"] {
    
   <ul>
   <li><a href="#accessing-qgis" id="toc-accessing-qgis" class="nav-link active" data-scroll-target="#accessing-qgis">Accessing QGIS</a></li>
-  <li><a href="#doing-stuff-in-qgis" id="toc-doing-stuff-in-qgis" class="nav-link" data-scroll-target="#doing-stuff-in-qgis">Doing stuff in QGIS</a></li>
+  <li><a href="#downloading-the-data" id="toc-downloading-the-data" class="nav-link" data-scroll-target="#downloading-the-data">Downloading the Data</a></li>
+  <li><a href="#using-qgis" id="toc-using-qgis" class="nav-link" data-scroll-target="#using-qgis">Using QGIS</a></li>
   </ul>
 </nav>
     </div>
@@ -136,24 +145,40 @@ ul.task-list li input[type="checkbox"] {
 
 <section id="accessing-qgis" class="level2">
 <h2 class="anchored" data-anchor-id="accessing-qgis">Accessing QGIS</h2>
-<p>Download the latest version of QGIS here …</p>
+<p>We’ll be working with the latest version of QGIS: v 3.28.3 which you can download <a href="https://www.qgis.org/en/site/">here</a>.</p>
+<ul>
+<li>Set QGIS up <strong>before</strong> attending the workshop if you’d like to follow along.</li>
+</ul>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src=".\images/QGIS_Download.png" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption">QGIS</figcaption><p></p>
+</figure>
+</div>
 </section>
-<section id="doing-stuff-in-qgis" class="level2">
-<h2 class="anchored" data-anchor-id="doing-stuff-in-qgis">Doing stuff in QGIS</h2>
-<p>1 Import Shapefile and check projection</p>
-<p>2 Import points from CSV and project to BC Albers</p>
+<section id="downloading-the-data" class="level2">
+<h2 class="anchored" data-anchor-id="downloading-the-data">Downloading the Data</h2>
+<p>Click <a href="./Data/Workshop_Data.zip" download="">here</a> to download the data for the workshop.</p>
+</section>
+<section id="using-qgis" class="level2">
+<h2 class="anchored" data-anchor-id="using-qgis">Using QGIS</h2>
+<ol type="1">
+<li><p>Open QGIS and create a project</p></li>
+<li><p>Import Shapefile and check projection</p></li>
+<li><p>Import points from CSV and project to BC Albers</p>
 <ul>
 <li>Data is in Lat/Long WGS 1984</li>
-</ul>
-<p>3 Intersect points with sub divisions</p>
+</ul></li>
+<li><p>Intersect points with sub divisions</p>
 <ul>
 <li>We want to count number of incidents per subdivision</li>
-</ul>
-<p>4 Calculate rate of police involved deaths</p>
+</ul></li>
+<li><p>Calculate rate of police involved deaths</p>
 <ul>
 <li>Divide total deaths per subdivision by total population per subdivision</li>
-</ul>
-<p>5 Map the deaths per subdivision</p>
+</ul></li>
+<li><p>Map the deaths per subdivision</p></li>
+</ol>
 
 
 </section>

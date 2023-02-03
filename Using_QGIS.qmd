@@ -4,23 +4,35 @@ author: "Dr. June Skeeter & CAPACITY"
 ---
 
 ## Accessing QGIS
- 
-Download the latest version of QGIS here ...
 
-## Doing stuff in QGIS
+We'll be working with the latest version of QGIS: v 3.28.3 which you can download [here](https://www.qgis.org/en/site/).
 
-1 Import Shapefile and check projection
+* Set QGIS up **before** attending the workshop if you'd like to follow along.
 
-2 Import points from CSV and project to BC Albers
+![QGIS](/images/QGIS_Download.png)
 
-* Data is in Lat/Long WGS 1984
+## Downloading the Data
 
-3 Intersect points with sub divisions
+Click <a href="/Data/Workshop_Data.zip" download="">here</a> to download the data for the workshop.
 
-* We want to count number of incidents per subdivision
 
-4 Calculate rate of police involved deaths
 
-* Divide total deaths per subdivision by total population per subdivision
+## Using QGIS
 
-5 Map the deaths per subdivision
+1. Open QGIS and create a project
+
+2. Import Shapefile and check projection
+
+3. Import points from CSV and project to BC Albers
+
+    * Data is in Lat/Long WGS 1984
+
+4. Intersect points with sub divisions
+
+    * We want to count number of incidents per subdivision
+
+5. Calculate rate of police involved deaths
+
+    * Divide total deaths per subdivision by total population per subdivision
+
+6. Map the deaths per subdivision

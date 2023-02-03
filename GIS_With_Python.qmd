@@ -34,14 +34,54 @@ BC_subDivs = BC_subDivs.to_crs(3005)
 BC_subDivs['Pop_NonWhite'] = BC_subDivs[['Pop_Indigenous','Pop_Visible_Minority']].sum(axis=1)
 BC_subDivs['Pop_White'] = BC_subDivs['Pop_Total'] - BC_subDivs['Pop_NonWhite']
 
-
-# Export to .shp and .geojson
-BC_subDivs.to_file('Data/BC_subDivs_2022.shp')
-BC_subDivs.to_file('Data/BC_subDivs_2022.geojson',driver='GeoJSON')
-
 # Make a Map
 fig,ax=plt.subplots(figsize=(6,6))
 BC_subDivs.plot(column='Pop_Total',ax=ax,edgecolor='k',legend=True)
 ax.set_title('Population by BC Sub-Divison 2022')
+
+```
+
+## Saving Data
+
+Lets save the data and also create a .zip file so the data can be downloaded more easily.
+
+```{python}
+import zipfile
+import shutil
+import os
+# Export to .geojson and .shp
+
+# GEOJSON is a simple lightweight format that is well suited for web applications
+BC_subDivs.to_file('Data/BC_subDivs_2022.geojson',driver='GeoJSON')
+
+# Shapefile is a more complex format often used in desktop GIS.  We're saving to a temp folder because we will then zip the data for easier download
+BC_subDivs.to_file('Data/temp_files/BC_subDivs_2022.shp')
+
+# Save the .shp to a .zip for easier download
+filepath = 'Data/Workshop_Data.zip'
+
+# Delete old .zip file *if it exists*
+try:
+  os.unlink(filepath)
+except:
+  pass
+with zipfile.ZipFile(filepath, 'a') as zipf:
+    source_path = 'Data/temp_files/BC_subDivs_2022.shp'
+    # Add the BC_subDivs_2022.shp
+    destination = 'BC_subDivs_2022.shp'
+    zipf.write(source_path, destination)
+
+    # Add the deaths data as well
+    source_path = 'Data/PID_locations.csv'
+    destination = 'PID_locations.csv'
+    zipf.write(source_path, destination)
+
+# Delete data in temp_files
+for root, dirs, files in os.walk('Data/temp_files'):
+    for f in files:
+      if f != '.gitignore':
+        os.unlink(os.path.join(root, f))
+    for d in dirs:
+      shutil.rmtree(os.path.join(root, d))
 
 ```

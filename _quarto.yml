@@ -9,6 +9,8 @@ website:
       - href: index.qmd
         text: Home
       - about.qmd
+      - Using_QGIS.qmd
+      - GIS_With_Python.qmd
 
 format:
   html:

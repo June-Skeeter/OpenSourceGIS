@@ -11,7 +11,14 @@
     "href": "GIS_With_Python.html",
     "title": "Doing GIS with Python",
     "section": "",
-    "text": "A test of using a python venv in QMD\n\n# Import Packages\nimport geopandas as gpd\nimport matplotlib.pyplot as plt\n\n# Read Data\nBC_subDivs = gpd.read_file('Data/SimplyAnalytics_Shapefiles_2023-02-02_23_07_59_7fa10dab487cee919a8d7e30ddf85ff3.shp')\n\n# Rename Columns\nBC_subDivs = BC_subDivs.rename(columns = {\n  'VALUE0':'Pop_Indigenous',\n  'VALUE1':'Pop_Total',\n  'VALUE2':'Pop_Visible_Minority'\n})\n\n# Project to BC Albers\nBC_subDivs = BC_subDivs.to_crs(3005)\n\n# Calculate White and Non-White Population Totals\nBC_subDivs['Pop_NonWhite'] = BC_subDivs[['Pop_Indigenous','Pop_Visible_Minority']].sum(axis=1)\nBC_subDivs['Pop_White'] = BC_subDivs['Pop_Total'] - BC_subDivs['Pop_NonWhite']\n\n\n# Export to .shp and .geojson\nBC_subDivs.to_file('Data/BC_subDivs_2022.shp')\nBC_subDivs.to_file('Data/BC_subDivs_2022.geojson',driver='GeoJSON')\n\n# Make a Map\nfig,ax=plt.subplots(figsize=(6,6))\nBC_subDivs.plot(column='Pop_Total',ax=ax,edgecolor='k',legend=True)\nax.set_title('Population by BC Sub-Divison 2022')\n\nC:\\Users\\User\\AppData\\Local\\Temp\\ipykernel_26396\\347104222.py:24: UserWarning: Column names longer than 10 characters will be truncated when saved to ESRI Shapefile.\n  BC_subDivs.to_file('Data/BC_subDivs_2022.shp')\n\n\nText(0.5, 1.0, 'Population by BC Sub-Divison 2022')"
+    "text": "A test of using a python venv in QMD\n\n# Import Packages\nimport geopandas as gpd\nimport matplotlib.pyplot as plt\n\n# Read Data\nBC_subDivs = gpd.read_file('Data/SimplyAnalytics_Shapefiles_2023-02-02_23_07_59_7fa10dab487cee919a8d7e30ddf85ff3.shp')\n\n# Rename Columns\nBC_subDivs = BC_subDivs.rename(columns = {\n  'VALUE0':'Pop_Indigenous',\n  'VALUE1':'Pop_Total',\n  'VALUE2':'Pop_Visible_Minority'\n})\n\n# Project to BC Albers\nBC_subDivs = BC_subDivs.to_crs(3005)\n\n# Calculate White and Non-White Population Totals\nBC_subDivs['Pop_NonWhite'] = BC_subDivs[['Pop_Indigenous','Pop_Visible_Minority']].sum(axis=1)\nBC_subDivs['Pop_White'] = BC_subDivs['Pop_Total'] - BC_subDivs['Pop_NonWhite']\n\n# Make a Map\nfig,ax=plt.subplots(figsize=(6,6))\nBC_subDivs.plot(column='Pop_Total',ax=ax,edgecolor='k',legend=True)\nax.set_title('Population by BC Sub-Divison 2022')\n\nText(0.5, 1.0, 'Population by BC Sub-Divison 2022')"
+  },
+  {
+    "objectID": "GIS_With_Python.html#saving-data",
+    "href": "GIS_With_Python.html#saving-data",
+    "title": "Doing GIS with Python",
+    "section": "Saving Data",
+    "text": "Saving Data\nLets save the data and also create a .zip file so the data can be downloaded more easily.\n\nimport zipfile\nimport shutil\nimport os\n# Export to .geojson and .shp\n\n# GEOJSON is a simple lightweight format that is well suited for web applications\nBC_subDivs.to_file('Data/BC_subDivs_2022.geojson',driver='GeoJSON')\n\n# Shapefile is a more complex format often used in desktop GIS.  We're saving to a temp folder because we will then zip the data for easier download\nBC_subDivs.to_file('Data/temp_files/BC_subDivs_2022.shp')\n\n# Save the .shp to a .zip for easier download\nfilepath = 'Data/Workshop_Data.zip'\n\n# Delete old .zip file *if it exists*\ntry:\n  os.unlink(filepath)\nexcept:\n  pass\nwith zipfile.ZipFile(filepath, 'a') as zipf:\n    source_path = 'Data/temp_files/BC_subDivs_2022.shp'\n    # Add the BC_subDivs_2022.shp\n    destination = 'BC_subDivs_2022.shp'\n    zipf.write(source_path, destination)\n\n    # Add the deaths data as well\n    source_path = 'Data/PID_locations.csv'\n    destination = 'PID_locations.csv'\n    zipf.write(source_path, destination)\n\n# Delete data in temp_files\nfor root, dirs, files in os.walk('Data/temp_files'):\n    for f in files:\n      if f != '.gitignore':\n        os.unlink(os.path.join(root, f))\n    for d in dirs:\n      shutil.rmtree(os.path.join(root, d))\n\nC:\\Users\\User\\AppData\\Local\\Temp\\ipykernel_5252\\2726889508.py:10: UserWarning: Column names longer than 10 characters will be truncated when saved to ESRI Shapefile.\n  BC_subDivs.to_file('Data/temp_files/BC_subDivs_2022.shp')"
   },
   {
     "objectID": "index.html",
@@ -25,13 +32,20 @@
     "href": "Using_QGIS.html",
     "title": "Using QGIS",
     "section": "",
-    "text": "Download the latest version of QGIS here …"
+    "text": "We’ll be working with the latest version of QGIS: v 3.28.3 which you can download here.\n\nSet QGIS up before attending the workshop if you’d like to follow along.\n\n\n\n\nQGIS"
   },
   {
-    "objectID": "Using_QGIS.html#doing-stuff-in-qgis",
-    "href": "Using_QGIS.html#doing-stuff-in-qgis",
+    "objectID": "Using_QGIS.html#downloading-the-data",
+    "href": "Using_QGIS.html#downloading-the-data",
     "title": "Using QGIS",
-    "section": "Doing stuff in QGIS",
-    "text": "Doing stuff in QGIS\n1 Import Shapefile and check projection\n2 Import points from CSV and project to BC Albers\n\nData is in Lat/Long WGS 1984\n\n3 Intersect points with sub divisions\n\nWe want to count number of incidents per subdivision\n\n4 Calculate rate of police involved deaths\n\nDivide total deaths per subdivision by total population per subdivision\n\n5 Map the deaths per subdivision"
+    "section": "Downloading the Data",
+    "text": "Downloading the Data\nClick here to download the data for the workshop."
+  },
+  {
+    "objectID": "Using_QGIS.html#using-qgis",
+    "href": "Using_QGIS.html#using-qgis",
+    "title": "Using QGIS",
+    "section": "Using QGIS",
+    "text": "Using QGIS\n\nOpen QGIS and create a project\nImport Shapefile and check projection\nImport points from CSV and project to BC Albers\n\nData is in Lat/Long WGS 1984\n\nIntersect points with sub divisions\n\nWe want to count number of incidents per subdivision\n\nCalculate rate of police involved deaths\n\nDivide total deaths per subdivision by total population per subdivision\n\nMap the deaths per subdivision"
   }
 ]
