@@ -11,7 +11,7 @@
     "href": "GIS_With_Python.html",
     "title": "Doing GIS with Python",
     "section": "",
-    "text": "A test of using a python venv in QMD\n\n# Import Packages\nimport geopandas as gpd\nimport matplotlib.pyplot as plt\n\n# Read Data\nBC_subDivs = gpd.read_file('Data/SimplyAnalytics_Shapefiles_2023-02-02_23_07_59_7fa10dab487cee919a8d7e30ddf85ff3.shp')\n\n# Rename Columns\nBC_subDivs = BC_subDivs.rename(columns = {\n  'VALUE0':'Pop_Indigenous',\n  'VALUE1':'Pop_Total',\n  'VALUE2':'Pop_Visible_Minority'\n})\n\n# Project to BC Albers\nBC_subDivs = BC_subDivs.to_crs(3005)\n\n# Calculate White and Non-White Population Totals\nBC_subDivs['Pop_NonWhite'] = BC_subDivs[['Pop_Indigenous','Pop_Visible_Minority']].sum(axis=1)\nBC_subDivs['Pop_White'] = BC_subDivs['Pop_Total'] - BC_subDivs['Pop_NonWhite']\n\n\n# Export to .shp and .geojson\nBC_subDivs.to_file('Data/BC_subDivs_2022.shp')\nBC_subDivs.to_file('Data/BC_subDivs_2022.geojson',driver='GeoJSON')\n\n# Make a Map\nfig,ax=plt.subplots(figsize=(6,6))\nBC_subDivs.plot(column='Pop_Total',ax=ax,edgecolor='k',legend=True)\nax.set_title('Population by BC Sub-Divison 2022')\n\nC:\\Users\\User\\AppData\\Local\\Temp\\ipykernel_28868\\347104222.py:24: UserWarning: Column names longer than 10 characters will be truncated when saved to ESRI Shapefile.\n  BC_subDivs.to_file('Data/BC_subDivs_2022.shp')\n\n\nText(0.5, 1.0, 'Population by BC Sub-Divison 2022')"
+    "text": "A test of using a python venv in QMD\n\n# Import Packages\nimport geopandas as gpd\nimport matplotlib.pyplot as plt\n\n# Read Data\nBC_subDivs = gpd.read_file('Data/SimplyAnalytics_Shapefiles_2023-02-02_23_07_59_7fa10dab487cee919a8d7e30ddf85ff3.shp')\n\n# Rename Columns\nBC_subDivs = BC_subDivs.rename(columns = {\n  'VALUE0':'Pop_Indigenous',\n  'VALUE1':'Pop_Total',\n  'VALUE2':'Pop_Visible_Minority'\n})\n\n# Project to BC Albers\nBC_subDivs = BC_subDivs.to_crs(3005)\n\n# Calculate White and Non-White Population Totals\nBC_subDivs['Pop_NonWhite'] = BC_subDivs[['Pop_Indigenous','Pop_Visible_Minority']].sum(axis=1)\nBC_subDivs['Pop_White'] = BC_subDivs['Pop_Total'] - BC_subDivs['Pop_NonWhite']\n\n\n# Export to .shp and .geojson\nBC_subDivs.to_file('Data/BC_subDivs_2022.shp')\nBC_subDivs.to_file('Data/BC_subDivs_2022.geojson',driver='GeoJSON')\n\n# Make a Map\nfig,ax=plt.subplots(figsize=(6,6))\nBC_subDivs.plot(column='Pop_Total',ax=ax,edgecolor='k',legend=True)\nax.set_title('Population by BC Sub-Divison 2022')\n\nC:\\Users\\User\\AppData\\Local\\Temp\\ipykernel_21280\\347104222.py:24: UserWarning: Column names longer than 10 characters will be truncated when saved to ESRI Shapefile.\n  BC_subDivs.to_file('Data/BC_subDivs_2022.shp')\n\n\nText(0.5, 1.0, 'Population by BC Sub-Divison 2022')"
   },
   {
     "objectID": "index.html",
@@ -19,5 +19,19 @@
     "title": "OpenSourceGIS",
     "section": "",
     "text": "This is a Quarto website.\nTo learn more about Quarto websites visit https://quarto.org/docs/websites."
+  },
+  {
+    "objectID": "Using_QGIS.html",
+    "href": "Using_QGIS.html",
+    "title": "Using QGIS",
+    "section": "",
+    "text": "Download the latest version of QGIS here …"
+  },
+  {
+    "objectID": "Using_QGIS.html#doing-stuff-in-qgis",
+    "href": "Using_QGIS.html#doing-stuff-in-qgis",
+    "title": "Using QGIS",
+    "section": "Doing stuff in QGIS",
+    "text": "Doing stuff in QGIS\n1 Import Shapefile and check projection\n2 Import points from CSV and project to BC Albers\n\nData is in Lat/Long WGS 1984\n\n3 Intersect points with sub divisions"
   }
 ]
