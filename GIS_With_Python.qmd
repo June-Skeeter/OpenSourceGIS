@@ -65,11 +65,14 @@ try:
   os.unlink(filepath)
 except:
   pass
+
 with zipfile.ZipFile(filepath, 'a') as zipf:
-    source_path = 'Data/temp_files/BC_subDivs_2022.shp'
+    source_path = 'Data/temp_files/'
+    source_name = 'BC_subDivs_2022'
+    destination_name = 'BC_subDivs_2022'
     # Add the BC_subDivs_2022.shp
-    destination = 'BC_subDivs_2022.shp'
-    zipf.write(source_path, destination)
+    for tag in ['.shp','.dbf','.prj','.shx']:
+      zipf.write(source_path+source_name+tag, destination_name+tag)
 
     # Add the deaths data as well
     source_path = 'Data/PID_locations.csv'
