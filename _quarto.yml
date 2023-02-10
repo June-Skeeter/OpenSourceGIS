@@ -3,7 +3,7 @@ project:
   output-dir: docs
 
 website:
-  title: "OpenSourceGIS"
+  title: "Open Source GIS"
   navbar:
     left:
       - href: index.qmd

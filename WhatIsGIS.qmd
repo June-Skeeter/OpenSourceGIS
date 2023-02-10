@@ -1,0 +1,95 @@
+---
+title: "What is GIS?"
+author: "Dr. June Skeeter"
+
+format:
+  revealjs: 
+    navigation-mode: linear
+    controls: true
+    controls-layout: bottom-right
+    controls-tutorial: true
+---
+
+
+## What is GIS?
+
+The **GI** stands for **Geographic Information**.  The **S** can be either **Science** or **System**.  You will often see them used interchangeably because they are closely related.  Basically, you do GI*Science* with a GI*System*.
+
+## What is GIScience?
+
+The science and study of geospatial information: 
+
+* GIScience is a framework we use to understand spatial information.  
+* It is rooted in Cartography, the art and science of graphically mapping 
+    * It is inherently multidisciplinary and draws on Computer Science, Mathematics & Statistics, Remote Sensing, and many other fields.
+
+## What is a GISystem?
+
+Any system or tool we use to store and analyze geospatial information can broadly be considered a GISystem.
+
+* Until a the late 20th century, atlases and library map catalogues were our most advanced GIS.  
+* Now we have a wide range of computer and web based GISystems.  
+    * Ranging from the mobile applications to cloud computing systems that can process terabytes of planetary scale data.
+
+## What can be done with GIS?
+
+GIS can be used to help solve a wide range of geographic problems in different fields: 
+
+* Epidemiology/Public Health
+* Planning (Urban, Hazards)
+* Conservation & Resource Management
+* Economics
+* Climate Science
+* Ecology/Biology
+* Social Justice
+
+# Accessing GISystems
+
+
+## Proprietary GIS Software 
+
+GIS is rooted in the capitalist enterprise.  Consequently many of the initial developments in GIS were by for profit companies.  
+
+* [ESRI](https://www.esri.com/en-us/home) is a leading producer of GIS software.  They make ArcGIS Pro, one of the most widely used GIS applications.  
+* **Proprietary** software requires users to purchase a license.  
+    * Proprietary licenses are often expensive.  
+    * They are a barrier to access for many uses.
+
+## ArcGIS Pro
+
+<img src="./images/ESRI_license.png" width="1000">
+
+## Open Source GIS Software
+
+Open source software has proliferated in recent years.  The the internet has connected like-minded developers and allowed for collaboration across the globe.
+
+* **Open Source** software is published under an open copyright license making it free to access.
+    * Includes programming languages such as Python, R, Java applications such as QGIS and InkScape.
+    * Open source software is more accessible because its free to download and use!
+
+## QGIS
+
+<div style="overflow: hidden;
+  padding-top: 56.25%;
+  position: relative">
+  <iframe src="https://www.qgis.org/en/site/" title="Processes" scrolling="no" frameborder="0"
+    style="border: 0;
+   height: 100%;
+   left: 0;
+   position: absolute;
+   top: 0;
+   width: 100%;">
+   <p>Your browser does not support iframes.</p>
+ </iframe>
+</div>
+
+
+# Programmatic Approaches
+
+## GIS & Coding
+
+There are a number of free programming languages that can be used to do GIS, each having their own advantages.  Three commonly used languages include:
+
+* Python:
+* Javascript:
+* R:

@@ -18,14 +18,14 @@
     "href": "GIS_With_Python.html#saving-data",
     "title": "Doing GIS with Python",
     "section": "Saving Data",
-    "text": "Saving Data\nLets save the data and also create a .zip file so the data can be downloaded more easily.\n\nimport zipfile\nimport shutil\nimport os\n# Export to .geojson and .shp\n\n# GEOJSON is a simple lightweight format that is well suited for web applications\nBC_subDivs.to_file('Data/BC_subDivs_2022.geojson',driver='GeoJSON')\n\n# Shapefile is a more complex format often used in desktop GIS.  We're saving to a temp folder because we will then zip the data for easier download\nBC_subDivs.to_file('Data/temp_files/BC_subDivs_2022.shp')\n\n# Save the .shp to a .zip for easier download\nfilepath = 'Data/Workshop_Data.zip'\n\n# Delete old .zip file *if it exists*\ntry:\n  os.unlink(filepath)\nexcept:\n  pass\n\nwith zipfile.ZipFile(filepath, 'a') as zipf:\n    source_path = 'Data/temp_files/'\n    source_name = 'BC_subDivs_2022'\n    destination_name = 'BC_subDivs_2022'\n    # Add the BC_subDivs_2022.shp\n    for tag in ['.shp','.dbf','.prj','.shx']:\n      zipf.write(source_path+source_name+tag, destination_name+tag)\n\n    # Add the deaths data as well\n    source_path = 'Data/PID_locations.csv'\n    destination = 'PID_locations.csv'\n    zipf.write(source_path, destination)\n\n# Delete data in temp_files\nfor root, dirs, files in os.walk('Data/temp_files'):\n    for f in files:\n      if f != '.gitignore':\n        os.unlink(os.path.join(root, f))\n    for d in dirs:\n      shutil.rmtree(os.path.join(root, d))\n\nC:\\Users\\User\\AppData\\Local\\Temp\\ipykernel_17560\\2143700213.py:10: UserWarning: Column names longer than 10 characters will be truncated when saved to ESRI Shapefile.\n  BC_subDivs.to_file('Data/temp_files/BC_subDivs_2022.shp')"
+    "text": "Saving Data\nLets save the data and also create a .zip file so the data can be downloaded more easily.\n\nimport zipfile\nimport shutil\nimport os\n# Export to .geojson and .shp\n\n# GEOJSON is a simple lightweight format that is well suited for web applications\nBC_subDivs.to_file('Data/BC_subDivs_2022.geojson',driver='GeoJSON')\n\n# Shapefile is a more complex format often used in desktop GIS.  We're saving to a temp folder because we will then zip the data for easier download\nBC_subDivs.to_file('Data/temp_files/BC_subDivs_2022.shp')\n\n# Save the .shp to a .zip for easier download\nfilepath = 'Data/Workshop_Data.zip'\n\n# Delete old .zip file *if it exists*\ntry:\n  os.unlink(filepath)\nexcept:\n  pass\n\nwith zipfile.ZipFile(filepath, 'a') as zipf:\n    source_path = 'Data/temp_files/'\n    source_name = 'BC_subDivs_2022'\n    destination_name = 'BC_subDivs_2022'\n    # Add the BC_subDivs_2022.shp\n    for tag in ['.shp','.dbf','.prj','.shx']:\n      zipf.write(source_path+source_name+tag, destination_name+tag)\n\n    # Add the deaths data as well\n    source_path = 'Data/PID_locations.csv'\n    destination = 'PID_locations.csv'\n    zipf.write(source_path, destination)\n\n# Delete data in temp_files\nfor root, dirs, files in os.walk('Data/temp_files'):\n    for f in files:\n      if f != '.gitignore':\n        os.unlink(os.path.join(root, f))\n    for d in dirs:\n      shutil.rmtree(os.path.join(root, d))\n\nC:\\Users\\User\\AppData\\Local\\Temp\\ipykernel_36920\\2143700213.py:10: UserWarning: Column names longer than 10 characters will be truncated when saved to ESRI Shapefile.\n  BC_subDivs.to_file('Data/temp_files/BC_subDivs_2022.shp')"
   },
   {
     "objectID": "index.html",
     "href": "index.html",
-    "title": "OpenSourceGIS",
+    "title": "Open Source GIS",
     "section": "",
-    "text": "This is a Quarto website.\nTo learn more about Quarto websites visit https://quarto.org/docs/websites."
+    "text": "An Introductory Workshop\n\n\n<p>\nYour browser does not support iframes.\n</p>\n<p>\n\nView slides in new tab"
   },
   {
     "objectID": "Using_QGIS.html",
@@ -47,5 +47,89 @@
     "title": "Using QGIS",
     "section": "Using QGIS",
     "text": "Using QGIS\n\nOpen QGIS and create a project\nImport Shapefile and check projection\nImport points from CSV and project to BC Albers\n\nData is in Lat/Long WGS 1984\n\nIntersect points with sub divisions\n\nWe want to count number of incidents per subdivision\n\nCalculate rate of police involved deaths\n\nDivide total deaths per subdivision by total population per subdivision\n\nMap the deaths per subdivision"
+  },
+  {
+    "objectID": "WhatIsGIS.html#what-is-gis",
+    "href": "WhatIsGIS.html#what-is-gis",
+    "title": "What is GIS?",
+    "section": "What is GIS?",
+    "text": "What is GIS?\nThe GI stands for Geographic Information. The S can be either Science or System. You will often see them used interchangeably because they are closely related. Basically, you do GIScience with a GISystem."
+  },
+  {
+    "objectID": "WhatIsGIS.html#what-is-giscience",
+    "href": "WhatIsGIS.html#what-is-giscience",
+    "title": "What is GIS?",
+    "section": "What is GIScience?",
+    "text": "What is GIScience?\nThe science and study of geospatial information:\n\nGIScience is a framework we use to understand spatial information.\n\nIt is rooted in Cartography, the art and science of graphically mapping\n\nIt is inherently multidisciplinary and draws on Computer Science, Mathematics & Statistics, Remote Sensing, and many other fields."
+  },
+  {
+    "objectID": "WhatIsGIS.html#what-is-a-gisystem",
+    "href": "WhatIsGIS.html#what-is-a-gisystem",
+    "title": "What is GIS?",
+    "section": "What is a GISystem?",
+    "text": "What is a GISystem?\nAny system or tool we use to store and analyze geospatial information can broadly be considered a GISystem.\n\nUntil a the late 20th century, atlases and library map catalogues were our most advanced GIS.\n\nNow we have a wide range of computer and web based GISystems.\n\nRanging from the mobile applications to cloud computing systems that can process terabytes of planetary scale data."
+  },
+  {
+    "objectID": "WhatIsGIS.html#what-can-be-done-with-gis",
+    "href": "WhatIsGIS.html#what-can-be-done-with-gis",
+    "title": "What is GIS?",
+    "section": "What can be done with GIS?",
+    "text": "What can be done with GIS?\nGIS can be used to help solve a wide range of geographic problems in different fields:\n\nEpidemiology/Public Health\nPlanning (Urban, Hazards)\nConservation & Resource Management\nEconomics\nClimate Science\nEcology/Biology\nSocial Justice"
+  },
+  {
+    "objectID": "WhatIsGIS.html#proprietary-gis-software",
+    "href": "WhatIsGIS.html#proprietary-gis-software",
+    "title": "What is GIS?",
+    "section": "Proprietary GIS Software",
+    "text": "Proprietary GIS Software\nGIS is rooted in the capitalist enterprise. Consequently many of the initial developments in GIS were by for profit companies.\n\nESRI is a leading producer of GIS software. They make ArcGIS Pro, one of the most widely used GIS applications.\n\nProprietary software requires users to purchase a license.\n\nProprietary licenses are often expensive.\n\nThey are a barrier to access for many uses."
+  },
+  {
+    "objectID": "WhatIsGIS.html#arcgis-pro",
+    "href": "WhatIsGIS.html#arcgis-pro",
+    "title": "What is GIS?",
+    "section": "ArcGIS Pro",
+    "text": "ArcGIS Pro"
+  },
+  {
+    "objectID": "WhatIsGIS.html#open-source-gis",
+    "href": "WhatIsGIS.html#open-source-gis",
+    "title": "What is GIS?",
+    "section": "Open Source GIS",
+    "text": "Open Source GIS\nOpen source software has proliferated in recent years. The the internet has connected like-minded developers and allowed for collaboration across the globe.\n\nOpen Source software is published under an open copyright license making it free to access.\n\nIncludes programming languages such as Python, R, Java applications such as QGIS and InkScape.\nOpen source software is more accessible because its free to download and use!"
+  },
+  {
+    "objectID": "WhatIsGIS.html#qgis",
+    "href": "WhatIsGIS.html#qgis",
+    "title": "What is GIS?",
+    "section": "QGIS",
+    "text": "QGIS\n\n\n<p>\nYour browser does not support iframes.\n</p>\n<p>"
+  },
+  {
+    "objectID": "WhatIsGIS.html#fremium-services",
+    "href": "WhatIsGIS.html#fremium-services",
+    "title": "What is GIS?",
+    "section": "Fremium Services",
+    "text": "Fremium Services\nCompanies like mapbox and Google provide some geospatial services that are “free” to a point.\n* Google earth engine provides its cloud based computational capabilities to non-commercial users free of charge."
+  },
+  {
+    "objectID": "WhatIsGIS.html#open-source-gis-software",
+    "href": "WhatIsGIS.html#open-source-gis-software",
+    "title": "What is GIS?",
+    "section": "Open Source GIS Software",
+    "text": "Open Source GIS Software\nOpen source software has proliferated in recent years. The the internet has connected like-minded developers and allowed for collaboration across the globe.\n\nOpen Source software is published under an open copyright license making it free to access.\n\nIncludes programming languages such as Python, R, Java applications such as QGIS and InkScape.\nOpen source software is more accessible because its free to download and use!"
+  },
+  {
+    "objectID": "WhatIsGIS.html#programmatic-approaches",
+    "href": "WhatIsGIS.html#programmatic-approaches",
+    "title": "What is GIS?",
+    "section": "Programmatic Approaches",
+    "text": "Programmatic Approaches\nThere are a number of programming languages that can be used to do GIS, each having their own advantages.\n\nPython:\nJavascript:\nR:"
+  },
+  {
+    "objectID": "WhatIsGIS.html#gis-coding",
+    "href": "WhatIsGIS.html#gis-coding",
+    "title": "What is GIS?",
+    "section": "GIS & Coding",
+    "text": "GIS & Coding\nThere are a number of free programming languages that can be used to do GIS, each having their own advantages. Three commonly used languages include:\n\nPython:\nJavascript:\nR:"
   }
 ]
