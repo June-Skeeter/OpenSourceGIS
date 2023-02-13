@@ -11,14 +11,35 @@
     "href": "GIS_With_Python.html",
     "title": "Doing GIS with Python",
     "section": "",
-    "text": "A test of using a python venv in QMD\n\n# Import Packages\nimport geopandas as gpd\nimport matplotlib.pyplot as plt\n\n# Read Data\nBC_subDivs = gpd.read_file('Data/SimplyAnalytics_Shapefiles_2023-02-02_23_07_59_7fa10dab487cee919a8d7e30ddf85ff3.shp')\n\n# Rename Columns\nBC_subDivs = BC_subDivs.rename(columns = {\n  'VALUE0':'Pop_Indigenous',\n  'VALUE1':'Pop_Total',\n  'VALUE2':'Pop_Visible_Minority'\n})\n\n# Project to BC Albers\nBC_subDivs = BC_subDivs.to_crs(3005)\n\n# Calculate White and Non-White Population Totals\nBC_subDivs['Pop_NonWhite'] = BC_subDivs[['Pop_Indigenous','Pop_Visible_Minority']].sum(axis=1)\nBC_subDivs['Pop_White'] = BC_subDivs['Pop_Total'] - BC_subDivs['Pop_NonWhite']\n\n# Make a Map\nfig,ax=plt.subplots(figsize=(6,6))\nBC_subDivs.plot(column='Pop_Total',ax=ax,edgecolor='k',legend=True)\nax.set_title('Population by BC Sub-Divison 2022')\n\nText(0.5, 1.0, 'Population by BC Sub-Divison 2022')"
+    "text": "Import the packages needed\n\n# Packages for handling files\nimport os\nimport zipfile\nimport shutil\n# Packages for reading and plotting data\nimport pandas as pd\nimport geopandas as gpd\nimport matplotlib.pyplot as plt"
+  },
+  {
+    "objectID": "GIS_With_Python.html#import-the-point-data-from-github",
+    "href": "GIS_With_Python.html#import-the-point-data-from-github",
+    "title": "Doing GIS with Python",
+    "section": "Import the point data from github",
+    "text": "Import the point data from github\n\nPID_Metadata = pd.read_csv('https://raw.githubusercontent.com/Police-Involved-Deaths-CA/Data/main/MostRecentUpdate/PID_locations_Metadata.csv')\n\nprint('Metadata')\nprint(PID_Metadata)\n\nPID_locations = pd.read_csv('https://raw.githubusercontent.com/Police-Involved-Deaths-CA/Data/main/MostRecentUpdate/PID_locations.csv')\n\nprint('\\nData Preview')\nprint(PID_locations.head())\n\nPID_locations.to_csv('Data/temp_files/PID_locations.csv')\n\nMetadata\n   Unnamed: 0                   Key  \\\n0           0    Most Recent Update   \n1           1  Primary Data Sources   \n2           2                Notes:   \n3           3            Created by   \n4           4            Other Info   \n\n                                              Values  \n0                                         2023-02-12  \n1  CBC Deadly Force 2018: https://newsinteractive...  \n2  These point locations have been geocoded using...  \n3                                       June Skeeter  \n4  Police_Killings_Locations contains only locati...  \n\n\n\nData Preview\n         date  INDEX id_victim first_name  last_name middle_name   age gender  \\\n0  2000-01-05    235   235_KCC       Paul    Murdock         NaN  25.0    NaN   \n1  2000-01-19    236   236_KCC      Lloyd  Dustyhorn         NaN  53.0   Male   \n2  2000-01-29    237   237_KCC     Rodney     Naitus         NaN  25.0   Male   \n3  2000-01-30    238   0413_V1     Stuart   Mitchell         NaN  49.0   Male   \n4  2000-02-03    239   239_KCC   Lawrence     Wegner         NaN  30.0   Male   \n\n            race ethnic_ancestry  ... ds_rank                   Type    GC  \\\n0  Not Specified   Not Specified  ...     NaN  Police Involved Death  True   \n1     Indigenous   Not Specified  ...     NaN         Police Killing  True   \n2     Indigenous   Not Specified  ...     NaN         Police Killing  True   \n3  Not Specified   Not Specified  ...     NaN         Police Killing  True   \n4     Indigenous   Not Specified  ...     NaN         Police Killing  True   \n\n  GC_City_Only   latitude   longitude                   geocoding_attempt  \\\n0         True  43.653482  -79.383935                          Toronto ON   \n1         True  52.131802 -106.660767                        Saskatoon SK   \n2         True  52.131802 -106.660767                        Saskatoon SK   \n3        False  43.658858  -79.365514  Winchester & Parliament Toronto ON   \n4         True  52.131802 -106.660767                        Saskatoon SK   \n\n                                    geocoding_return geocoding_notes  \\\n0                           Toronto, Ontario, Canada          Passed   \n1                    Saskatoon, Saskatchewan, Canada          Passed   \n2                    Saskatoon, Saskatchewan, Canada          Passed   \n3  Parliament Street, Toronto, Ontario M5A 2Z6, C...          Passed   \n4                    Saskatoon, Saskatchewan, Canada          Passed   \n\n  geocode_city  \n0      Toronto  \n1    Saskatoon  \n2    Saskatoon  \n3      Toronto  \n4    Saskatoon  \n\n[5 rows x 47 columns]"
+  },
+  {
+    "objectID": "GIS_With_Python.html#import-the-census-data",
+    "href": "GIS_With_Python.html#import-the-census-data",
+    "title": "Doing GIS with Python",
+    "section": "Import the Census Data",
+    "text": "Import the Census Data\nExtract a .zipfile of census data downloaded from simply analytics\n\nRead the metadata\n\n\nBC_Census_Data = 'SimplyAnalytics_Shapefiles_2023-02-02_23_07_59_7fa10dab487cee919a8d7e30ddf85ff3'\n\nwith zipfile.ZipFile('Data/'+BC_Census_Data+'.zip','r') as BCD:\n  print('.zipfile contains:')\n  print (BCD.namelist())\n  BCD.extractall('Data/temp_files/')\n\nprint('\\n Varible Names:')\n\nwith open('Data/temp_files/variable_names.txt') as var_name:\n  print(var_name.read())\n\n.zipfile contains:\n['SimplyAnalytics_Shapefiles_2023-02-02_23_07_59_7fa10dab487cee919a8d7e30ddf85ff3.dbf', 'SimplyAnalytics_Shapefiles_2023-02-02_23_07_59_7fa10dab487cee919a8d7e30ddf85ff3.prj', 'SimplyAnalytics_Shapefiles_2023-02-02_23_07_59_7fa10dab487cee919a8d7e30ddf85ff3.shx', 'SimplyAnalytics_Shapefiles_2023-02-02_23_07_59_7fa10dab487cee919a8d7e30ddf85ff3.shp', 'variable_names.txt']\n\n Varible Names:\nVALUE0  # Household Population by Aboriginal Identity | Household Population For Aboriginal Identity | Aboriginal Identity, 2022\nVALUE1  # Basics | Total Population, 2022\nVALUE2  # Household Population by Visible Minority Status | Household Population For Visible Minority | Visible Minority Total, 2022"
+  },
+  {
+    "objectID": "GIS_With_Python.html#read-the-shapefile",
+    "href": "GIS_With_Python.html#read-the-shapefile",
+    "title": "Doing GIS with Python",
+    "section": "Read the Shapefile",
+    "text": "Read the Shapefile\n\nRename the columns\nChange the projection\nCalculate the new columns\nPlot a map\n\n\n# Read Data\nBC_subDivs = gpd.read_file('Data/temp_files/'+BC_Census_Data+'.shp')\n\n# Rename Columns\nBC_subDivs = BC_subDivs.rename(columns = {\n  'VALUE0':'Pop_Indigenous',\n  'VALUE1':'Pop_Total',\n  'VALUE2':'Pop_Visible_Minority'\n})\n\n# Project to BC Albers\nBC_subDivs = BC_subDivs.to_crs(3005)\n\n# Calculate White and Non-White Population Totals\nBC_subDivs['Pop_NonWhite'] = BC_subDivs[['Pop_Indigenous','Pop_Visible_Minority']].sum(axis=1)\nBC_subDivs['Pop_White'] = BC_subDivs['Pop_Total'] - BC_subDivs['Pop_NonWhite']\n\n# Make a Map\nfig,ax=plt.subplots(figsize=(6,6))\nBC_subDivs.plot(column='Pop_Total',ax=ax,edgecolor='k',legend=True)\nax.set_title('Population by BC Sub-Divison 2022')\n\nText(0.5, 1.0, 'Population by BC Sub-Divison 2022')"
   },
   {
     "objectID": "GIS_With_Python.html#saving-data",
     "href": "GIS_With_Python.html#saving-data",
     "title": "Doing GIS with Python",
     "section": "Saving Data",
-    "text": "Saving Data\nLets save the data and also create a .zip file so the data can be downloaded more easily.\n\nimport zipfile\nimport shutil\nimport os\n# Export to .geojson and .shp\n\n# GEOJSON is a simple lightweight format that is well suited for web applications\nBC_subDivs.to_file('Data/BC_subDivs_2022.geojson',driver='GeoJSON')\n\n# Shapefile is a more complex format often used in desktop GIS.  We're saving to a temp folder because we will then zip the data for easier download\nBC_subDivs.to_file('Data/temp_files/BC_subDivs_2022.shp')\n\n# Save the .shp to a .zip for easier download\nfilepath = 'Data/Workshop_Data.zip'\n\n# Delete old .zip file *if it exists*\ntry:\n  os.unlink(filepath)\nexcept:\n  pass\n\nwith zipfile.ZipFile(filepath, 'a') as zipf:\n    source_path = 'Data/temp_files/'\n    source_name = 'BC_subDivs_2022'\n    destination_name = 'BC_subDivs_2022'\n    # Add the BC_subDivs_2022.shp\n    for tag in ['.shp','.dbf','.prj','.shx']:\n      zipf.write(source_path+source_name+tag, destination_name+tag)\n\n    # Add the deaths data as well\n    source_path = 'Data/PID_locations.csv'\n    destination = 'PID_locations.csv'\n    zipf.write(source_path, destination)\n\n# Delete data in temp_files\nfor root, dirs, files in os.walk('Data/temp_files'):\n    for f in files:\n      if f != '.gitignore':\n        os.unlink(os.path.join(root, f))\n    for d in dirs:\n      shutil.rmtree(os.path.join(root, d))\n\nC:\\Users\\User\\AppData\\Local\\Temp\\ipykernel_36920\\2143700213.py:10: UserWarning: Column names longer than 10 characters will be truncated when saved to ESRI Shapefile.\n  BC_subDivs.to_file('Data/temp_files/BC_subDivs_2022.shp')"
+    "text": "Saving Data\nLets save the data and also create a .zip file so the data can be downloaded more easily.\n\n# Shapefile is a more complex format often used in desktop GIS.  We're saving to a temp folder because we will then zip the data for easier download\nBC_subDivs.to_file('Data/temp_files/BC_subDivs_2022.shp')\n\n# Save the .shp to a .zip for easier download\nfilepath = 'Data/Workshop_Data.zip'\n\n# Delete old .zip file *if it exists*\ntry:\n  os.unlink(filepath)\nexcept:\n  pass\n\nwith zipfile.ZipFile(filepath, 'a') as zipf:\n    source_path = 'Data/temp_files/'\n    source_name = 'BC_subDivs_2022'\n    destination_name = 'BC_subDivs_2022'\n    # Add the BC_subDivs_2022.shp\n    for tag in ['.shp','.dbf','.prj','.shx']:\n      zipf.write(source_path+source_name+tag, destination_name+tag)\n\n    # Add the deaths data as well\n    source_path = 'Data/PID_locations.csv'\n    destination = 'PID_locations.csv'\n    zipf.write(source_path, destination)\n\n# Delete data in temp_files\nfor root, dirs, files in os.walk('Data/temp_files'):\n    for f in files:\n      if f != '.gitignore':\n        os.unlink(os.path.join(root, f))\n\nC:\\Users\\User\\AppData\\Local\\Temp\\ipykernel_8576\\1093180775.py:2: UserWarning: Column names longer than 10 characters will be truncated when saved to ESRI Shapefile.\n  BC_subDivs.to_file('Data/temp_files/BC_subDivs_2022.shp')"
   },
   {
     "objectID": "index.html",
@@ -35,18 +56,18 @@
     "text": "We’ll be working with the latest version of QGIS: v 3.28.3 which you can download here.\n\nSet QGIS up before attending the workshop if you’d like to follow along.\n\n\n\n\nQGIS"
   },
   {
-    "objectID": "Using_QGIS.html#downloading-the-data",
-    "href": "Using_QGIS.html#downloading-the-data",
+    "objectID": "Using_QGIS.html#setting-up-a-project",
+    "href": "Using_QGIS.html#setting-up-a-project",
     "title": "Using QGIS",
-    "section": "Downloading the Data",
-    "text": "Downloading the Data\nClick here to download the data for the workshop."
+    "section": "Setting up a Project",
+    "text": "Setting up a Project\n\nDownloading the Data\nClick here to download the data for the workshop. Extract the data to your project folder.\n\nTip: I like to start every project in a “clean directory”.\n\nCreate a folder called “GIS_Workshop” in your working directory. This can be any directory, just make sure you remember where it is! In this example, I’m working in C:\nCreate another folder within that called “Data” - this can be where you save all the data for a project\n\nYou can then extract the .zip file you downloaded to “GIS_Workshop\"\n\n\n\n\nOpening QGIS\nYou can then open QGIS, which will create an new “untitled” project. Click Project>Save in the top left, and save the project in “base” of your new project directory.\n\nDon’t save in the data folder. You want your project file to be in the first thing you see when you open a your project."
   },
   {
-    "objectID": "Using_QGIS.html#using-qgis",
-    "href": "Using_QGIS.html#using-qgis",
+    "objectID": "Using_QGIS.html#adding-data",
+    "href": "Using_QGIS.html#adding-data",
     "title": "Using QGIS",
-    "section": "Using QGIS",
-    "text": "Using QGIS\n\nOpen QGIS and create a project\nImport Shapefile and check projection\nImport points from CSV and project to BC Albers\n\nData is in Lat/Long WGS 1984\n\nIntersect points with sub divisions\n\nWe want to count number of incidents per subdivision\n\nCalculate rate of police involved deaths\n\nDivide total deaths per subdivision by total population per subdivision\n\nMap the deaths per subdivision"
+    "section": "Adding Data",
+    "text": "Adding Data\nYou should be able to find your project folder in the directory browser.\n\nExpand the Data folder so you can see the contents.\n\n\nTry clicking on BC_subDivs_2022.shp and dragging it to your layers tab.\n\nIf you get an error message, take note of what it says, but ignore it for now.\n\n\nIt is very important to check what coordinate system your data layers are in when import a new layer.\n\nThis is the first thing you should do each time you import a layer.\n\n\n\nImport points from CSV and project to BC Albers\n\nData is in Lat/Long WGS 1984\n\nIntersect points with sub divisions\n\nWe want to count number of incidents per subdivision\n\nCalculate rate of police involved deaths\n\nDivide total deaths per subdivision by total population per subdivision\n\nMap the deaths per subdivision"
   },
   {
     "objectID": "WhatIsGIS.html#what-is-gis",
@@ -91,11 +112,11 @@
     "text": "ArcGIS Pro"
   },
   {
-    "objectID": "WhatIsGIS.html#open-source-gis",
-    "href": "WhatIsGIS.html#open-source-gis",
+    "objectID": "WhatIsGIS.html#open-source-gis-software",
+    "href": "WhatIsGIS.html#open-source-gis-software",
     "title": "What is GIS?",
-    "section": "Open Source GIS",
-    "text": "Open Source GIS\nOpen source software has proliferated in recent years. The the internet has connected like-minded developers and allowed for collaboration across the globe.\n\nOpen Source software is published under an open copyright license making it free to access.\n\nIncludes programming languages such as Python, R, Java applications such as QGIS and InkScape.\nOpen source software is more accessible because its free to download and use!"
+    "section": "Open Source GIS Software",
+    "text": "Open Source GIS Software\nOpen source software has proliferated in recent years. The the internet has connected like-minded developers and allowed for collaboration across the globe.\n\nOpen Source software is published under an open copyright license making it free to access.\n\nIncludes programming languages such as Python, R, Java applications such as QGIS and InkScape.\nOpen source software is more accessible because its free to download and use!"
   },
   {
     "objectID": "WhatIsGIS.html#qgis",
@@ -105,31 +126,17 @@
     "text": "QGIS\n\n\n<p>\nYour browser does not support iframes.\n</p>\n<p>"
   },
   {
-    "objectID": "WhatIsGIS.html#fremium-services",
-    "href": "WhatIsGIS.html#fremium-services",
-    "title": "What is GIS?",
-    "section": "Fremium Services",
-    "text": "Fremium Services\nCompanies like mapbox and Google provide some geospatial services that are “free” to a point.\n* Google earth engine provides its cloud based computational capabilities to non-commercial users free of charge."
-  },
-  {
-    "objectID": "WhatIsGIS.html#open-source-gis-software",
-    "href": "WhatIsGIS.html#open-source-gis-software",
-    "title": "What is GIS?",
-    "section": "Open Source GIS Software",
-    "text": "Open Source GIS Software\nOpen source software has proliferated in recent years. The the internet has connected like-minded developers and allowed for collaboration across the globe.\n\nOpen Source software is published under an open copyright license making it free to access.\n\nIncludes programming languages such as Python, R, Java applications such as QGIS and InkScape.\nOpen source software is more accessible because its free to download and use!"
-  },
-  {
-    "objectID": "WhatIsGIS.html#programmatic-approaches",
-    "href": "WhatIsGIS.html#programmatic-approaches",
-    "title": "What is GIS?",
-    "section": "Programmatic Approaches",
-    "text": "Programmatic Approaches\nThere are a number of programming languages that can be used to do GIS, each having their own advantages.\n\nPython:\nJavascript:\nR:"
-  },
-  {
     "objectID": "WhatIsGIS.html#gis-coding",
     "href": "WhatIsGIS.html#gis-coding",
     "title": "What is GIS?",
     "section": "GIS & Coding",
-    "text": "GIS & Coding\nThere are a number of free programming languages that can be used to do GIS, each having their own advantages. Three commonly used languages include:\n\nPython:\nJavascript:\nR:"
+    "text": "GIS & Coding\nThere are a number of free programming languages that can be used to do GIS, each having their own advantages. Three commonly used languages include:\n\nPython: Great general purpose programming language that is easy to read/write with with numerous GIS packages.\nJavascript: The go to language for web-based maps and applications.\nR: A statistical programming language widely used in the sciences."
+  },
+  {
+    "objectID": "WhatIsGIS.html#python",
+    "href": "WhatIsGIS.html#python",
+    "title": "What is GIS?",
+    "section": "Python",
+    "text": "Python\nArguably the most widely used and flexible option. It has a number of packages that can help us work with geospatial data. A few examples include:\n\nGeopandas: Works with vector data (points, lines, & polygons) and their tabular attributes.\nRasterio: Works with raster data (imagery & surfaces) and their tabular attributes.\nGeopy: Used for geocoding, converts street addresses and other text based location data to coordinates (latitude & longitude)."
   }
 ]

@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>OpenSourceGIS - Doing GIS with Python</title>
+<title>Open Source GIS - Doing GIS with Python</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -134,7 +134,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container">
     <a class="navbar-brand" href="./index.html">
-    <span class="navbar-title">OpenSourceGIS</span>
+    <span class="navbar-title">Open Source GIS</span>
     </a>
   </div>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
@@ -173,7 +173,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#start-python-and-import-the-data" id="toc-start-python-and-import-the-data" class="nav-link active" data-scroll-target="#start-python-and-import-the-data">Start Python and Import the Data</a></li>
+  <li><a href="#start-a-python-project" id="toc-start-a-python-project" class="nav-link active" data-scroll-target="#start-a-python-project">Start a Python Project</a></li>
+  <li><a href="#import-the-point-data-from-github" id="toc-import-the-point-data-from-github" class="nav-link" data-scroll-target="#import-the-point-data-from-github">Import the point data from github</a></li>
+  <li><a href="#import-the-census-data" id="toc-import-the-census-data" class="nav-link" data-scroll-target="#import-the-census-data">Import the Census Data</a></li>
+  <li><a href="#read-the-shapefile" id="toc-read-the-shapefile" class="nav-link" data-scroll-target="#read-the-shapefile">Read the Shapefile</a></li>
   <li><a href="#saving-data" id="toc-saving-data" class="nav-link" data-scroll-target="#saving-data">Saving Data</a></li>
   </ul>
 </nav>
@@ -198,89 +201,196 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 </header>
 
-<section id="start-python-and-import-the-data" class="level2">
-<h2 class="anchored" data-anchor-id="start-python-and-import-the-data">Start Python and Import the Data</h2>
-<p>A test of using a python venv in QMD</p>
+<section id="start-a-python-project" class="level2">
+<h2 class="anchored" data-anchor-id="start-a-python-project">Start a Python Project</h2>
+<p>Import the packages needed</p>
 <div class="cell" data-execution_count="1">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Import Packages</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> geopandas <span class="im">as</span> gpd</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Read Data</span></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>BC_subDivs <span class="op">=</span> gpd.read_file(<span class="st">'Data/SimplyAnalytics_Shapefiles_2023-02-02_23_07_59_7fa10dab487cee919a8d7e30ddf85ff3.shp'</span>)</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Rename Columns</span></span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>BC_subDivs <span class="op">=</span> BC_subDivs.rename(columns <span class="op">=</span> {</span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  <span class="st">'VALUE0'</span>:<span class="st">'Pop_Indigenous'</span>,</span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>  <span class="st">'VALUE1'</span>:<span class="st">'Pop_Total'</span>,</span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>  <span class="st">'VALUE2'</span>:<span class="st">'Pop_Visible_Minority'</span></span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>})</span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Project to BC Albers</span></span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>BC_subDivs <span class="op">=</span> BC_subDivs.to_crs(<span class="dv">3005</span>)</span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate White and Non-White Population Totals</span></span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>BC_subDivs[<span class="st">'Pop_NonWhite'</span>] <span class="op">=</span> BC_subDivs[[<span class="st">'Pop_Indigenous'</span>,<span class="st">'Pop_Visible_Minority'</span>]].<span class="bu">sum</span>(axis<span class="op">=</span><span class="dv">1</span>)</span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>BC_subDivs[<span class="st">'Pop_White'</span>] <span class="op">=</span> BC_subDivs[<span class="st">'Pop_Total'</span>] <span class="op">-</span> BC_subDivs[<span class="st">'Pop_NonWhite'</span>]</span>
-<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a><span class="co"># Make a Map</span></span>
-<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>fig,ax<span class="op">=</span>plt.subplots(figsize<span class="op">=</span>(<span class="dv">6</span>,<span class="dv">6</span>))</span>
-<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>BC_subDivs.plot(column<span class="op">=</span><span class="st">'Pop_Total'</span>,ax<span class="op">=</span>ax,edgecolor<span class="op">=</span><span class="st">'k'</span>,legend<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="st">'Population by BC Sub-Divison 2022'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Packages for handling files</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> zipfile</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> shutil</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Packages for reading and plotting data</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> geopandas <span class="im">as</span> gpd</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="import-the-point-data-from-github" class="level2">
+<h2 class="anchored" data-anchor-id="import-the-point-data-from-github">Import the point data from github</h2>
+<div class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>PID_Metadata <span class="op">=</span> pd.read_csv(<span class="st">'https://raw.githubusercontent.com/Police-Involved-Deaths-CA/Data/main/MostRecentUpdate/PID_locations_Metadata.csv'</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'Metadata'</span>)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(PID_Metadata)</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>PID_locations <span class="op">=</span> pd.read_csv(<span class="st">'https://raw.githubusercontent.com/Police-Involved-Deaths-CA/Data/main/MostRecentUpdate/PID_locations.csv'</span>)</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'</span><span class="ch">\n</span><span class="st">Data Preview'</span>)</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(PID_locations.head())</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>PID_locations.to_csv(<span class="st">'Data/temp_files/PID_locations.csv'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Metadata
+   Unnamed: 0                   Key  \
+0           0    Most Recent Update   
+1           1  Primary Data Sources   
+2           2                Notes:   
+3           3            Created by   
+4           4            Other Info   
+
+                                              Values  
+0                                         2023-02-12  
+1  CBC Deadly Force 2018: https://newsinteractive...  
+2  These point locations have been geocoded using...  
+3                                       June Skeeter  
+4  Police_Killings_Locations contains only locati...  </code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Data Preview
+         date  INDEX id_victim first_name  last_name middle_name   age gender  \
+0  2000-01-05    235   235_KCC       Paul    Murdock         NaN  25.0    NaN   
+1  2000-01-19    236   236_KCC      Lloyd  Dustyhorn         NaN  53.0   Male   
+2  2000-01-29    237   237_KCC     Rodney     Naitus         NaN  25.0   Male   
+3  2000-01-30    238   0413_V1     Stuart   Mitchell         NaN  49.0   Male   
+4  2000-02-03    239   239_KCC   Lawrence     Wegner         NaN  30.0   Male   
+
+            race ethnic_ancestry  ... ds_rank                   Type    GC  \
+0  Not Specified   Not Specified  ...     NaN  Police Involved Death  True   
+1     Indigenous   Not Specified  ...     NaN         Police Killing  True   
+2     Indigenous   Not Specified  ...     NaN         Police Killing  True   
+3  Not Specified   Not Specified  ...     NaN         Police Killing  True   
+4     Indigenous   Not Specified  ...     NaN         Police Killing  True   
+
+  GC_City_Only   latitude   longitude                   geocoding_attempt  \
+0         True  43.653482  -79.383935                          Toronto ON   
+1         True  52.131802 -106.660767                        Saskatoon SK   
+2         True  52.131802 -106.660767                        Saskatoon SK   
+3        False  43.658858  -79.365514  Winchester &amp; Parliament Toronto ON   
+4         True  52.131802 -106.660767                        Saskatoon SK   
+
+                                    geocoding_return geocoding_notes  \
+0                           Toronto, Ontario, Canada          Passed   
+1                    Saskatoon, Saskatchewan, Canada          Passed   
+2                    Saskatoon, Saskatchewan, Canada          Passed   
+3  Parliament Street, Toronto, Ontario M5A 2Z6, C...          Passed   
+4                    Saskatoon, Saskatchewan, Canada          Passed   
+
+  geocode_city  
+0      Toronto  
+1    Saskatoon  
+2    Saskatoon  
+3      Toronto  
+4    Saskatoon  
+
+[5 rows x 47 columns]</code></pre>
+</div>
+</div>
+</section>
+<section id="import-the-census-data" class="level2">
+<h2 class="anchored" data-anchor-id="import-the-census-data">Import the Census Data</h2>
+<p>Extract a .zipfile of census data downloaded from simply analytics</p>
+<ul>
+<li>Read the metadata</li>
+</ul>
+<div class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>BC_Census_Data <span class="op">=</span> <span class="st">'SimplyAnalytics_Shapefiles_2023-02-02_23_07_59_7fa10dab487cee919a8d7e30ddf85ff3'</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> zipfile.ZipFile(<span class="st">'Data/'</span><span class="op">+</span>BC_Census_Data<span class="op">+</span><span class="st">'.zip'</span>,<span class="st">'r'</span>) <span class="im">as</span> BCD:</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="bu">print</span>(<span class="st">'.zipfile contains:'</span>)</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="bu">print</span> (BCD.namelist())</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  BCD.extractall(<span class="st">'Data/temp_files/'</span>)</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'</span><span class="ch">\n</span><span class="st"> Varible Names:'</span>)</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> <span class="bu">open</span>(<span class="st">'Data/temp_files/variable_names.txt'</span>) <span class="im">as</span> var_name:</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>  <span class="bu">print</span>(var_name.read())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>.zipfile contains:
+['SimplyAnalytics_Shapefiles_2023-02-02_23_07_59_7fa10dab487cee919a8d7e30ddf85ff3.dbf', 'SimplyAnalytics_Shapefiles_2023-02-02_23_07_59_7fa10dab487cee919a8d7e30ddf85ff3.prj', 'SimplyAnalytics_Shapefiles_2023-02-02_23_07_59_7fa10dab487cee919a8d7e30ddf85ff3.shx', 'SimplyAnalytics_Shapefiles_2023-02-02_23_07_59_7fa10dab487cee919a8d7e30ddf85ff3.shp', 'variable_names.txt']
+
+ Varible Names:
+VALUE0  # Household Population by Aboriginal Identity | Household Population For Aboriginal Identity | Aboriginal Identity, 2022
+VALUE1  # Basics | Total Population, 2022
+VALUE2  # Household Population by Visible Minority Status | Household Population For Visible Minority | Visible Minority Total, 2022
+</code></pre>
+</div>
+</div>
+</section>
+<section id="read-the-shapefile" class="level2">
+<h2 class="anchored" data-anchor-id="read-the-shapefile">Read the Shapefile</h2>
+<ul>
+<li>Rename the columns</li>
+<li>Change the projection</li>
+<li>Calculate the new columns</li>
+<li>Plot a map</li>
+</ul>
+<div class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Read Data</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>BC_subDivs <span class="op">=</span> gpd.read_file(<span class="st">'Data/temp_files/'</span><span class="op">+</span>BC_Census_Data<span class="op">+</span><span class="st">'.shp'</span>)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Rename Columns</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>BC_subDivs <span class="op">=</span> BC_subDivs.rename(columns <span class="op">=</span> {</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  <span class="st">'VALUE0'</span>:<span class="st">'Pop_Indigenous'</span>,</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>  <span class="st">'VALUE1'</span>:<span class="st">'Pop_Total'</span>,</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>  <span class="st">'VALUE2'</span>:<span class="st">'Pop_Visible_Minority'</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Project to BC Albers</span></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>BC_subDivs <span class="op">=</span> BC_subDivs.to_crs(<span class="dv">3005</span>)</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate White and Non-White Population Totals</span></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>BC_subDivs[<span class="st">'Pop_NonWhite'</span>] <span class="op">=</span> BC_subDivs[[<span class="st">'Pop_Indigenous'</span>,<span class="st">'Pop_Visible_Minority'</span>]].<span class="bu">sum</span>(axis<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>BC_subDivs[<span class="st">'Pop_White'</span>] <span class="op">=</span> BC_subDivs[<span class="st">'Pop_Total'</span>] <span class="op">-</span> BC_subDivs[<span class="st">'Pop_NonWhite'</span>]</span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Make a Map</span></span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>fig,ax<span class="op">=</span>plt.subplots(figsize<span class="op">=</span>(<span class="dv">6</span>,<span class="dv">6</span>))</span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>BC_subDivs.plot(column<span class="op">=</span><span class="st">'Pop_Total'</span>,ax<span class="op">=</span>ax,edgecolor<span class="op">=</span><span class="st">'k'</span>,legend<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="st">'Population by BC Sub-Divison 2022'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="4">
 <pre><code>Text(0.5, 1.0, 'Population by BC Sub-Divison 2022')</code></pre>
 </div>
 <div class="cell-output cell-output-display">
-<p><img src="GIS_With_Python_files/figure-html/cell-2-output-2.png" width="511" height="471"></p>
+<p><img src="GIS_With_Python_files/figure-html/cell-5-output-2.png" width="511" height="471"></p>
 </div>
 </div>
 </section>
 <section id="saving-data" class="level2">
 <h2 class="anchored" data-anchor-id="saving-data">Saving Data</h2>
 <p>Lets save the data and also create a .zip file so the data can be downloaded more easily.</p>
-<div class="cell" data-execution_count="2">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> zipfile</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> shutil</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Export to .geojson and .shp</span></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="co"># GEOJSON is a simple lightweight format that is well suited for web applications</span></span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>BC_subDivs.to_file(<span class="st">'Data/BC_subDivs_2022.geojson'</span>,driver<span class="op">=</span><span class="st">'GeoJSON'</span>)</span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Shapefile is a more complex format often used in desktop GIS.  We're saving to a temp folder because we will then zip the data for easier download</span></span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>BC_subDivs.to_file(<span class="st">'Data/temp_files/BC_subDivs_2022.shp'</span>)</span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Save the .shp to a .zip for easier download</span></span>
-<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>filepath <span class="op">=</span> <span class="st">'Data/Workshop_Data.zip'</span></span>
-<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Delete old .zip file *if it exists*</span></span>
-<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
-<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>  os.unlink(filepath)</span>
-<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a><span class="cf">except</span>:</span>
-<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>  <span class="cf">pass</span></span>
-<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> zipfile.ZipFile(filepath, <span class="st">'a'</span>) <span class="im">as</span> zipf:</span>
-<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>    source_path <span class="op">=</span> <span class="st">'Data/temp_files/'</span></span>
-<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>    source_name <span class="op">=</span> <span class="st">'BC_subDivs_2022'</span></span>
-<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>    destination_name <span class="op">=</span> <span class="st">'BC_subDivs_2022'</span></span>
-<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Add the BC_subDivs_2022.shp</span></span>
-<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> tag <span class="kw">in</span> [<span class="st">'.shp'</span>,<span class="st">'.dbf'</span>,<span class="st">'.prj'</span>,<span class="st">'.shx'</span>]:</span>
-<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>      zipf.write(source_path<span class="op">+</span>source_name<span class="op">+</span>tag, destination_name<span class="op">+</span>tag)</span>
-<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Add the deaths data as well</span></span>
-<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a>    source_path <span class="op">=</span> <span class="st">'Data/PID_locations.csv'</span></span>
-<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a>    destination <span class="op">=</span> <span class="st">'PID_locations.csv'</span></span>
-<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a>    zipf.write(source_path, destination)</span>
-<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a><span class="co"># Delete data in temp_files</span></span>
-<span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> root, dirs, files <span class="kw">in</span> os.walk(<span class="st">'Data/temp_files'</span>):</span>
-<span id="cb3-36"><a href="#cb3-36" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> f <span class="kw">in</span> files:</span>
-<span id="cb3-37"><a href="#cb3-37" aria-hidden="true" tabindex="-1"></a>      <span class="cf">if</span> f <span class="op">!=</span> <span class="st">'.gitignore'</span>:</span>
-<span id="cb3-38"><a href="#cb3-38" aria-hidden="true" tabindex="-1"></a>        os.unlink(os.path.join(root, f))</span>
-<span id="cb3-39"><a href="#cb3-39" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> d <span class="kw">in</span> dirs:</span>
-<span id="cb3-40"><a href="#cb3-40" aria-hidden="true" tabindex="-1"></a>      shutil.rmtree(os.path.join(root, d))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Shapefile is a more complex format often used in desktop GIS.  We're saving to a temp folder because we will then zip the data for easier download</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>BC_subDivs.to_file(<span class="st">'Data/temp_files/BC_subDivs_2022.shp'</span>)</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Save the .shp to a .zip for easier download</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>filepath <span class="op">=</span> <span class="st">'Data/Workshop_Data.zip'</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Delete old .zip file *if it exists*</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>  os.unlink(filepath)</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a><span class="cf">except</span>:</span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>  <span class="cf">pass</span></span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> zipfile.ZipFile(filepath, <span class="st">'a'</span>) <span class="im">as</span> zipf:</span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>    source_path <span class="op">=</span> <span class="st">'Data/temp_files/'</span></span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>    source_name <span class="op">=</span> <span class="st">'BC_subDivs_2022'</span></span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>    destination_name <span class="op">=</span> <span class="st">'BC_subDivs_2022'</span></span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Add the BC_subDivs_2022.shp</span></span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> tag <span class="kw">in</span> [<span class="st">'.shp'</span>,<span class="st">'.dbf'</span>,<span class="st">'.prj'</span>,<span class="st">'.shx'</span>]:</span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>      zipf.write(source_path<span class="op">+</span>source_name<span class="op">+</span>tag, destination_name<span class="op">+</span>tag)</span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Add the deaths data as well</span></span>
+<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a>    source_path <span class="op">=</span> <span class="st">'Data/PID_locations.csv'</span></span>
+<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a>    destination <span class="op">=</span> <span class="st">'PID_locations.csv'</span></span>
+<span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a>    zipf.write(source_path, destination)</span>
+<span id="cb9-25"><a href="#cb9-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-26"><a href="#cb9-26" aria-hidden="true" tabindex="-1"></a><span class="co"># Delete data in temp_files</span></span>
+<span id="cb9-27"><a href="#cb9-27" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> root, dirs, files <span class="kw">in</span> os.walk(<span class="st">'Data/temp_files'</span>):</span>
+<span id="cb9-28"><a href="#cb9-28" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> f <span class="kw">in</span> files:</span>
+<span id="cb9-29"><a href="#cb9-29" aria-hidden="true" tabindex="-1"></a>      <span class="cf">if</span> f <span class="op">!=</span> <span class="st">'.gitignore'</span>:</span>
+<span id="cb9-30"><a href="#cb9-30" aria-hidden="true" tabindex="-1"></a>        os.unlink(os.path.join(root, f))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>C:\Users\User\AppData\Local\Temp\ipykernel_36920\2143700213.py:10: UserWarning: Column names longer than 10 characters will be truncated when saved to ESRI Shapefile.
+<pre><code>C:\Users\User\AppData\Local\Temp\ipykernel_8576\1093180775.py:2: UserWarning: Column names longer than 10 characters will be truncated when saved to ESRI Shapefile.
   BC_subDivs.to_file('Data/temp_files/BC_subDivs_2022.shp')</code></pre>
 </div>
 </div>

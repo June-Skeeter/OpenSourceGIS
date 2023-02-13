@@ -90,6 +90,14 @@ Open source software has proliferated in recent years.  The the internet has con
 
 There are a number of free programming languages that can be used to do GIS, each having their own advantages.  Three commonly used languages include:
 
-* Python: Great general purpose programming language that is easy to read/write with with numerous GIS packages.
-* Javascript: The go to language for web-based maps and applications.
-* R: A statistical programming language widely used in the sciences.
+* **Python**: Great general purpose programming language that is easy to read/write with with numerous GIS packages.
+* **Javascript**: The go to language for web-based maps and applications.
+* **R**: A statistical programming language widely used in the sciences.
+
+## Python
+
+Arguably the most widely used and flexible option.  It has a number of packages that can help us work with geospatial data.  A few examples include:
+
+* **Geopandas**: Works with vector data (points, lines, & polygons) and their tabular attributes.
+* **Rasterio**: Works with raster data (imagery & surfaces) and their tabular attributes.
+* **Geopy**: Used for geocoding, converts street addresses and other text based location data to coordinates (latitude & longitude).

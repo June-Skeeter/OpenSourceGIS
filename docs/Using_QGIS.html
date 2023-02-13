@@ -8,7 +8,7 @@
 
 <meta name="author" content="Dr.&nbsp;June Skeeter &amp; CAPACITY">
 
-<title>OpenSourceGIS - Using QGIS</title>
+<title>Open Source GIS - Using QGIS</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -72,7 +72,7 @@ ul.task-list li input[type="checkbox"] {
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container">
     <a class="navbar-brand" href="./index.html">
-    <span class="navbar-title">OpenSourceGIS</span>
+    <span class="navbar-title">Open Source GIS</span>
     </a>
   </div>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
@@ -111,9 +111,13 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#accessing-qgis" id="toc-accessing-qgis" class="nav-link active" data-scroll-target="#accessing-qgis">Accessing QGIS</a></li>
+  <li><a href="#downlodading-qgis" id="toc-downlodading-qgis" class="nav-link active" data-scroll-target="#downlodading-qgis">Downlodading QGIS</a></li>
+  <li><a href="#setting-up-a-project" id="toc-setting-up-a-project" class="nav-link" data-scroll-target="#setting-up-a-project">Setting up a Project</a>
+  <ul class="collapse">
   <li><a href="#downloading-the-data" id="toc-downloading-the-data" class="nav-link" data-scroll-target="#downloading-the-data">Downloading the Data</a></li>
-  <li><a href="#using-qgis" id="toc-using-qgis" class="nav-link" data-scroll-target="#using-qgis">Using QGIS</a></li>
+  <li><a href="#opening-qgis" id="toc-opening-qgis" class="nav-link" data-scroll-target="#opening-qgis">Opening QGIS</a></li>
+  </ul></li>
+  <li><a href="#adding-data" id="toc-adding-data" class="nav-link" data-scroll-target="#adding-data">Adding Data</a></li>
   </ul>
 </nav>
     </div>
@@ -143,8 +147,8 @@ ul.task-list li input[type="checkbox"] {
 
 </header>
 
-<section id="accessing-qgis" class="level2">
-<h2 class="anchored" data-anchor-id="accessing-qgis">Accessing QGIS</h2>
+<section id="downlodading-qgis" class="level2">
+<h2 class="anchored" data-anchor-id="downlodading-qgis">Downlodading QGIS</h2>
 <p>We’ll be working with the latest version of QGIS: v 3.28.3 which you can download <a href="https://www.qgis.org/en/site/">here</a>.</p>
 <ul>
 <li>Set QGIS up <strong>before</strong> attending the workshop if you’d like to follow along.</li>
@@ -156,15 +160,48 @@ ul.task-list li input[type="checkbox"] {
 </figure>
 </div>
 </section>
-<section id="downloading-the-data" class="level2">
-<h2 class="anchored" data-anchor-id="downloading-the-data">Downloading the Data</h2>
-<p>Click <a href="./Data/Workshop_Data.zip" download="">here</a> to download the data for the workshop.</p>
+<section id="setting-up-a-project" class="level2">
+<h2 class="anchored" data-anchor-id="setting-up-a-project">Setting up a Project</h2>
+<section id="downloading-the-data" class="level3">
+<h3 class="anchored" data-anchor-id="downloading-the-data">Downloading the Data</h3>
+<p>Click <a href="./Data/Workshop_Data.zip" download="">here</a> to download the data for the workshop. Extract the data to your project folder.</p>
+<ul>
+<li><strong>Tip</strong>: I like to start every project in a “clean directory”.
+<ul>
+<li>Create a folder called “GIS_Workshop” in your working directory. This can be any directory, just make sure you remember where it is! In this example, I’m working in C:</li>
+<li>Create another folder within that called “Data” - this can be where you save all the data for a project</li>
+</ul></li>
+<li>You can then extract the .zip file you downloaded to “GIS_Workshop"</li>
+</ul>
+<p><img src="images/Extract_1.png" height="350"></p>
 </section>
-<section id="using-qgis" class="level2">
-<h2 class="anchored" data-anchor-id="using-qgis">Using QGIS</h2>
-<ol type="1">
-<li><p>Open QGIS and create a project</p></li>
-<li><p>Import Shapefile and check projection</p></li>
+<section id="opening-qgis" class="level3">
+<h3 class="anchored" data-anchor-id="opening-qgis">Opening QGIS</h3>
+<p>You can then open QGIS, which will create an new “untitled” project. Click Project&gt;Save in the top left, and save the project in “base” of your new project directory.</p>
+<ul>
+<li>Don’t save in the data folder. You want your project file to be in the first thing you see when you open a your project.</li>
+</ul>
+<p><img src="images/Save_1.png" height="450"></p>
+</section>
+</section>
+<section id="adding-data" class="level2">
+<h2 class="anchored" data-anchor-id="adding-data">Adding Data</h2>
+<p>You should be able to find your project folder in the directory browser.</p>
+<ul>
+<li>Expand the <strong>Data</strong> folder so you can see the contents.</li>
+</ul>
+<p><img src="images/Browser.png" height="450"></p>
+<p>Try clicking on BC_subDivs_2022.shp and dragging it to your layers tab.</p>
+<ul>
+<li>If you get an error message, take note of what it says, but ignore it for now.</li>
+</ul>
+<p><img src="images/Add_SHP.gif" height="450"></p>
+<p>It is <strong>very</strong> important to check what coordinate system your data layers are in when import a new layer.</p>
+<ul>
+<li>This is the first thing you should do each time you import a layer.</li>
+</ul>
+<p><img src="images/Check_Projection.gif" height="450"></p>
+<ol start="3" type="1">
 <li><p>Import points from CSV and project to BC Albers</p>
 <ul>
 <li>Data is in Lat/Long WGS 1984</li>

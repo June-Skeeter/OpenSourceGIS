@@ -6,19 +6,69 @@ format:
 jupyter: python3
 ---
 
-## Start Python and Import the Data
+## Start a Python Project
 
-A test of using a python venv in QMD
-
-
+Import the packages needed
 
 ```{python}
-# Import Packages
+# Packages for handling files
+import os
+import zipfile
+import shutil
+# Packages for reading and plotting data
+import pandas as pd
 import geopandas as gpd
 import matplotlib.pyplot as plt
 
+```
+
+## Import the point data from github
+
+```{python}
+PID_Metadata = pd.read_csv('https://raw.githubusercontent.com/Police-Involved-Deaths-CA/Data/main/MostRecentUpdate/PID_locations_Metadata.csv')
+
+print('Metadata')
+print(PID_Metadata)
+
+PID_locations = pd.read_csv('https://raw.githubusercontent.com/Police-Involved-Deaths-CA/Data/main/MostRecentUpdate/PID_locations.csv')
+
+print('\nData Preview')
+print(PID_locations.head())
+
+PID_locations.to_csv('Data/temp_files/PID_locations.csv')
+
+```
+
+## Import the Census Data
+
+Extract a .zipfile of census data downloaded from simply analytics
+
+* Read the metadata
+
+```{python}
+BC_Census_Data = 'SimplyAnalytics_Shapefiles_2023-02-02_23_07_59_7fa10dab487cee919a8d7e30ddf85ff3'
+
+with zipfile.ZipFile('Data/'+BC_Census_Data+'.zip','r') as BCD:
+  print('.zipfile contains:')
+  print (BCD.namelist())
+  BCD.extractall('Data/temp_files/')
+
+print('\n Varible Names:')
+
+with open('Data/temp_files/variable_names.txt') as var_name:
+  print(var_name.read())
+
+```
+## Read the Shapefile
+
+* Rename the columns
+* Change the projection
+* Calculate the new columns
+* Plot a map
+
+```{python}
 # Read Data
-BC_subDivs = gpd.read_file('Data/SimplyAnalytics_Shapefiles_2023-02-02_23_07_59_7fa10dab487cee919a8d7e30ddf85ff3.shp')
+BC_subDivs = gpd.read_file('Data/temp_files/'+BC_Census_Data+'.shp')
 
 # Rename Columns
 BC_subDivs = BC_subDivs.rename(columns = {
@@ -41,19 +91,12 @@ ax.set_title('Population by BC Sub-Divison 2022')
 
 ```
 
+
 ## Saving Data
 
 Lets save the data and also create a .zip file so the data can be downloaded more easily.
 
 ```{python}
-import zipfile
-import shutil
-import os
-# Export to .geojson and .shp
-
-# GEOJSON is a simple lightweight format that is well suited for web applications
-BC_subDivs.to_file('Data/BC_subDivs_2022.geojson',driver='GeoJSON')
-
 # Shapefile is a more complex format often used in desktop GIS.  We're saving to a temp folder because we will then zip the data for easier download
 BC_subDivs.to_file('Data/temp_files/BC_subDivs_2022.shp')
 
@@ -84,7 +127,5 @@ for root, dirs, files in os.walk('Data/temp_files'):
     for f in files:
       if f != '.gitignore':
         os.unlink(os.path.join(root, f))
-    for d in dirs:
-      shutil.rmtree(os.path.join(root, d))
 
 ```
