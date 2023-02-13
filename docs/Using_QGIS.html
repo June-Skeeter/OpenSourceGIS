@@ -60,6 +60,7 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 <link rel="stylesheet" href="styles.css">
 </head>
@@ -123,6 +124,12 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#importing-a-.csv-file" id="toc-importing-a-.csv-file" class="nav-link" data-scroll-target="#importing-a-.csv-file">Importing a .csv file</a></li>
   </ul></li>
   <li><a href="#reprojecting-a-layer" id="toc-reprojecting-a-layer" class="nav-link" data-scroll-target="#reprojecting-a-layer">3. Reprojecting a layer</a></li>
+  <li><a href="#point-in-polygon-analysis" id="toc-point-in-polygon-analysis" class="nav-link" data-scroll-target="#point-in-polygon-analysis">4. Point in Polygon Analysis</a></li>
+  <li><a href="#calculate-a-new-field" id="toc-calculate-a-new-field" class="nav-link" data-scroll-target="#calculate-a-new-field">5. Calculate a New Field</a></li>
+  <li><a href="#make-a-map" id="toc-make-a-map" class="nav-link" data-scroll-target="#make-a-map">6. Make a Map</a>
+  <ul class="collapse">
+  <li><a href="#add-the-map" id="toc-add-the-map" class="nav-link" data-scroll-target="#add-the-map">Add the Map</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -223,7 +230,7 @@ ul.task-list li input[type="checkbox"] {
 <li>This is know as “project on the fly”</li>
 </ul></li>
 </ul>
-<p><img src="images/CSV_Import.gif" height="450"></p>
+<p><video src="images/CSV_Import.mp4" height="450" controls=""><a href="images/CSV_Import.mp4">Video</a></video></p>
 </section>
 </section>
 <section id="reprojecting-a-layer" class="level2">
@@ -241,21 +248,49 @@ ul.task-list li input[type="checkbox"] {
 <li>Make sure to put it in the <strong>BC Albers</strong> projection</li>
 </ul></li>
 <li>You can then remove the old PID_locations layer as we don’t need it anymore</li>
+<li>You can also change the point style to help make sure things are more visible</li>
 </ul>
-<p><img src="images/Reproject.gif" height="450"></p>
-<ol start="4" type="1">
-<li><p>Intersect points with sub divisions</p>
+<p><video src="images/Reproject.mp4" height="450" controls=""><a href="images/Reproject.mp4">Video</a></video></p>
+</section>
+<section id="point-in-polygon-analysis" class="level2">
+<h2 class="anchored" data-anchor-id="point-in-polygon-analysis">4. Point in Polygon Analysis</h2>
+<p>A common task in GIS is to count how many points are contained in a given polygon. QGIS has a simple tool for that and we’ll use it to count how many police involved deaths there have been per census subdivision.</p>
 <ul>
-<li>We want to count number of incidents per subdivision</li>
-</ul></li>
-<li><p>Calculate rate of police involved deaths</p>
+<li>This will create a new layer, with a “NUMPOINTS” column that will tell us how many PID there were in each subdivision.
 <ul>
-<li>Divide total deaths per subdivision by total population per subdivision</li>
+<li>Open the attribute table to see the new column</li>
 </ul></li>
-<li><p>Map the deaths per subdivision</p></li>
-</ol>
+<li>Remove the old layer, and change the symbology of the new layer to show the number of incidents per subdivision
+<ul>
+<li>You can use the “Natural Breaks” classification method.</li>
+</ul></li>
+</ul>
+<p><video src="images/Point_in_Poly.mp4" height="450" controls=""><a href="images/Point_in_Poly.mp4">Video</a></video></p>
+</section>
+<section id="calculate-a-new-field" class="level2">
+<h2 class="anchored" data-anchor-id="calculate-a-new-field">5. Calculate a New Field</h2>
+<p>The number of police involved deaths in a subdivision will be strongly correlated with the <strong>total population</strong>. We can normalize by population and calculate the PID rate to reveal new patterns in the dataset.</p>
+<ul>
+<li><p>Open the attribute table then open the field calculator</p></li>
+<li><p>Use the expression window to define the expression: <span class="math display">\[ 'NUMPOINTS' / 'Pop\_Total' * 10000 \]</span></p></li>
+<li><p>This will give us the rate of police involved deaths <strong>per 10,000 residents</strong></p>
+<ul>
+<li>Note, the rate is over the full period of record. To get it per year, you would need to divide by length of the record as well</li>
+</ul></li>
+</ul>
+<p><video src="images/Normalize.mp4" height="450" controls=""><a href="images/Normalize.mp4">Video</a></video></p>
+</section>
+<section id="make-a-map" class="level2">
+<h2 class="anchored" data-anchor-id="make-a-map">6. Make a Map</h2>
+<p>There are <strong>many</strong> options for creating a map layout in QGIS. Far too much to cover here. But to get started, if you’d like to experiment on your own, you can create a new map layout. Hovering over the buttons in the layout window + searching on google can give you hints on what to do.</p>
+<p><img src="images/New_Layout.png" height="450"></p>
+<section id="add-the-map" class="level3">
+<h3 class="anchored" data-anchor-id="add-the-map">Add the Map</h3>
+<p>Once you have the layout window open, you can add a new map frame, legend, title, and any other necessary elements.</p>
+<p><video src="images/AddMap.mp4" height="450" controls=""><a href="images/AddMap.mp4">Video</a></video></p>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->
