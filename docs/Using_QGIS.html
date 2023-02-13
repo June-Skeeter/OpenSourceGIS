@@ -86,7 +86,7 @@ ul.task-list li input[type="checkbox"] {
   </li>  
   <li class="nav-item">
     <a class="nav-link" href="./about.html">
- <span class="menu-text">About</span></a>
+ <span class="menu-text">What is GIS?</span></a>
   </li>  
   <li class="nav-item">
     <a class="nav-link active" href="./Using_QGIS.html" aria-current="page">
@@ -112,12 +112,17 @@ ul.task-list li input[type="checkbox"] {
    
   <ul>
   <li><a href="#downlodading-qgis" id="toc-downlodading-qgis" class="nav-link active" data-scroll-target="#downlodading-qgis">Downlodading QGIS</a></li>
-  <li><a href="#setting-up-a-project" id="toc-setting-up-a-project" class="nav-link" data-scroll-target="#setting-up-a-project">Setting up a Project</a>
+  <li><a href="#setting-up-a-project" id="toc-setting-up-a-project" class="nav-link" data-scroll-target="#setting-up-a-project">1 Setting up a Project</a>
   <ul class="collapse">
   <li><a href="#downloading-the-data" id="toc-downloading-the-data" class="nav-link" data-scroll-target="#downloading-the-data">Downloading the Data</a></li>
   <li><a href="#opening-qgis" id="toc-opening-qgis" class="nav-link" data-scroll-target="#opening-qgis">Opening QGIS</a></li>
   </ul></li>
-  <li><a href="#adding-data" id="toc-adding-data" class="nav-link" data-scroll-target="#adding-data">Adding Data</a></li>
+  <li><a href="#adding-data" id="toc-adding-data" class="nav-link" data-scroll-target="#adding-data">2 Adding Data</a>
+  <ul class="collapse">
+  <li><a href="#importing-a-.shp-file" id="toc-importing-a-.shp-file" class="nav-link" data-scroll-target="#importing-a-.shp-file">Importing a .shp file</a></li>
+  <li><a href="#importing-a-.csv-file" id="toc-importing-a-.csv-file" class="nav-link" data-scroll-target="#importing-a-.csv-file">Importing a .csv file</a></li>
+  </ul></li>
+  <li><a href="#reprojecting-a-layer" id="toc-reprojecting-a-layer" class="nav-link" data-scroll-target="#reprojecting-a-layer">3. Reprojecting a layer</a></li>
   </ul>
 </nav>
     </div>
@@ -161,7 +166,7 @@ ul.task-list li input[type="checkbox"] {
 </div>
 </section>
 <section id="setting-up-a-project" class="level2">
-<h2 class="anchored" data-anchor-id="setting-up-a-project">Setting up a Project</h2>
+<h2 class="anchored" data-anchor-id="setting-up-a-project">1 Setting up a Project</h2>
 <section id="downloading-the-data" class="level3">
 <h3 class="anchored" data-anchor-id="downloading-the-data">Downloading the Data</h3>
 <p>Click <a href="./Data/Workshop_Data.zip" download="">here</a> to download the data for the workshop. Extract the data to your project folder.</p>
@@ -181,16 +186,18 @@ ul.task-list li input[type="checkbox"] {
 <ul>
 <li>Don’t save in the data folder. You want your project file to be in the first thing you see when you open a your project.</li>
 </ul>
-<p><img src="images/Save_1.png" height="450"></p>
+<p><img src="images/Save_1.png" class="img-fluid" width="850"></p>
 </section>
 </section>
 <section id="adding-data" class="level2">
-<h2 class="anchored" data-anchor-id="adding-data">Adding Data</h2>
+<h2 class="anchored" data-anchor-id="adding-data">2 Adding Data</h2>
 <p>You should be able to find your project folder in the directory browser.</p>
 <ul>
 <li>Expand the <strong>Data</strong> folder so you can see the contents.</li>
 </ul>
 <p><img src="images/Browser.png" height="450"></p>
+<section id="importing-a-.shp-file" class="level3">
+<h3 class="anchored" data-anchor-id="importing-a-.shp-file">Importing a .shp file</h3>
 <p>Try clicking on BC_subDivs_2022.shp and dragging it to your layers tab.</p>
 <ul>
 <li>If you get an error message, take note of what it says, but ignore it for now.</li>
@@ -201,11 +208,42 @@ ul.task-list li input[type="checkbox"] {
 <li>This is the first thing you should do each time you import a layer.</li>
 </ul>
 <p><img src="images/Check_Projection.gif" height="450"></p>
-<ol start="3" type="1">
-<li><p>Import points from CSV and project to BC Albers</p>
+</section>
+<section id="importing-a-.csv-file" class="level3">
+<h3 class="anchored" data-anchor-id="importing-a-.csv-file">Importing a .csv file</h3>
+<p>The point data (police involved deaths) is stored in a different format. To import it, you must go to <strong>Layers&gt;Add Layer&gt;Add Delimited Text Layer</strong>. If you try to drag it onto the map the same way you did with the .shp file, it won’t show anything.</p>
 <ul>
-<li>Data is in Lat/Long WGS 1984</li>
+<li><strong>csv</strong>: comma separated value format is a tabular data format with values separated by commas. This isn’t a spatial data format, <em>though it can contain spatial data</em>. We just need to go through some extra steps to make it work.
+<ul>
+<li>This file has numerous columns, including point locations (Lat/Long)</li>
+<li>We need to specify the coordinates (x,y data) and coordinate system (WGS 1984) when importing our data</li>
 </ul></li>
+<li>If you did the import correctly, the new layer should appear overtop the old, even though the are in different coordinate systems.
+<ul>
+<li>This is know as “project on the fly”</li>
+</ul></li>
+</ul>
+<p><img src="images/CSV_Import.gif" height="450"></p>
+</section>
+</section>
+<section id="reprojecting-a-layer" class="level2">
+<h2 class="anchored" data-anchor-id="reprojecting-a-layer">3. Reprojecting a layer</h2>
+<p>The PID layer is showing point locations that are recorded in Latitude and Longitude using the WGS 1984 coordinate system. This is different than the BC Albers Equal Area projection we are using for the census data layer (BC_subDivs_2022). Its best practice to ensure <strong>all</strong> data layers are <strong>always</strong> in the <strong>same</strong> projection before doing anything else.</p>
+<ul>
+<li>Processes may still run when the layers have different coordinate systems, but the results will be less accurate and the processing will take longer because the software will have to reproject layers on the fly.
+<ul>
+<li>It is easier to just reproject the data <strong>once</strong>.</li>
+</ul></li>
+<li>Search the <strong>Processing Toolbox</strong> for the <strong>Reproject</strong> function
+<ul>
+<li>Reprojecting will create a new layer in the desired coordinate system.</li>
+<li>Make sure to reproject the <strong>PID_Locations</strong> layer</li>
+<li>Make sure to put it in the <strong>BC Albers</strong> projection</li>
+</ul></li>
+<li>You can then remove the old PID_locations layer as we don’t need it anymore</li>
+</ul>
+<p><img src="images/Reproject.gif" height="450"></p>
+<ol start="4" type="1">
 <li><p>Intersect points with sub divisions</p>
 <ul>
 <li>We want to count number of incidents per subdivision</li>

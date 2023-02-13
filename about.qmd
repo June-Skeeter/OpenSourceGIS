@@ -2,8 +2,6 @@
 title: "What is GIS?"
 ---
 
-## What is GIS?
-
 ### An Introductory Workshop
 
 <div style="overflow: hidden;

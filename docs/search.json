@@ -2,9 +2,9 @@
   {
     "objectID": "about.html",
     "href": "about.html",
-    "title": "About",
+    "title": "What is GIS?",
     "section": "",
-    "text": "About this site"
+    "text": "An Introductory Workshop\n\n\n<p>\nYour browser does not support iframes.\n</p>\n<p>\n\nView slides in new tab"
   },
   {
     "objectID": "GIS_With_Python.html",
@@ -39,14 +39,28 @@
     "href": "GIS_With_Python.html#saving-data",
     "title": "Doing GIS with Python",
     "section": "Saving Data",
-    "text": "Saving Data\nLets save the data and also create a .zip file so the data can be downloaded more easily.\n\n# Shapefile is a more complex format often used in desktop GIS.  We're saving to a temp folder because we will then zip the data for easier download\nBC_subDivs.to_file('Data/temp_files/BC_subDivs_2022.shp')\n\n# Save the .shp to a .zip for easier download\nfilepath = 'Data/Workshop_Data.zip'\n\n# Delete old .zip file *if it exists*\ntry:\n  os.unlink(filepath)\nexcept:\n  pass\n\nwith zipfile.ZipFile(filepath, 'a') as zipf:\n    source_path = 'Data/temp_files/'\n    source_name = 'BC_subDivs_2022'\n    destination_name = 'BC_subDivs_2022'\n    # Add the BC_subDivs_2022.shp\n    for tag in ['.shp','.dbf','.prj','.shx']:\n      zipf.write(source_path+source_name+tag, destination_name+tag)\n\n    # Add the deaths data as well\n    source_path = 'Data/PID_locations.csv'\n    destination = 'PID_locations.csv'\n    zipf.write(source_path, destination)\n\n# Delete data in temp_files\nfor root, dirs, files in os.walk('Data/temp_files'):\n    for f in files:\n      if f != '.gitignore':\n        os.unlink(os.path.join(root, f))\n\nC:\\Users\\User\\AppData\\Local\\Temp\\ipykernel_8576\\1093180775.py:2: UserWarning: Column names longer than 10 characters will be truncated when saved to ESRI Shapefile.\n  BC_subDivs.to_file('Data/temp_files/BC_subDivs_2022.shp')"
+    "text": "Saving Data\nLets save the data and also create a .zip file so the data can be downloaded more easily.\n\n# Shapefile is a more complex format often used in desktop GIS.  We're saving to a temp folder because we will then zip the data for easier download\nBC_subDivs.to_file('Data/temp_files/BC_subDivs_2022.shp')\n\n# Save the .shp to a .zip for easier download\nfilepath = 'Data/Workshop_Data.zip'\n\n# Delete old .zip file *if it exists*\ntry:\n  os.unlink(filepath)\nexcept:\n  pass\n\nwith zipfile.ZipFile(filepath, 'a') as zipf:\n    source_path = 'Data/temp_files/'\n    source_name = 'BC_subDivs_2022'\n    destination_name = 'BC_subDivs_2022'\n    # Add the BC_subDivs_2022.shp\n    for tag in ['.shp','.dbf','.prj','.shx']:\n      zipf.write(source_path+source_name+tag, destination_name+tag)\n\n    # Add the deaths data as well\n    source_path = 'Data/PID_locations.csv'\n    destination = 'PID_locations.csv'\n    zipf.write(source_path, destination)\n\n# Delete data in temp_files\nfor root, dirs, files in os.walk('Data/temp_files'):\n    for f in files:\n      if f != '.gitignore':\n        os.unlink(os.path.join(root, f))\n\nC:\\Users\\User\\AppData\\Local\\Temp\\ipykernel_24396\\1093180775.py:2: UserWarning: Column names longer than 10 characters will be truncated when saved to ESRI Shapefile.\n  BC_subDivs.to_file('Data/temp_files/BC_subDivs_2022.shp')"
   },
   {
     "objectID": "index.html",
     "href": "index.html",
     "title": "Open Source GIS",
     "section": "",
-    "text": "An Introductory Workshop\n\n\n<p>\nYour browser does not support iframes.\n</p>\n<p>\n\nView slides in new tab"
+    "text": "This workshop provides a short overview of how you can conduct spatial data analysis with QGIS and Python.\n\n\n\nImport and inspect point (.csv format) and polygon (.shp format) data data in QGIS\nReproject a layer and conduct vector overlay\nNormalize data and calculate a new field\nCreate a simple map."
+  },
+  {
+    "objectID": "index.html#content-warning",
+    "href": "index.html#content-warning",
+    "title": "Open Source GIS",
+    "section": "Content Warning",
+    "text": "Content Warning\nWe will be using a dataset that deals with a difficult and painful subject. It may be triggering to some, especially BIPOC individuals. We are going to use a dataset of police killings and police involved deaths in Canada. The intent behind choosing this dataset is to show that open source GIS, data analysis, and data visualization can be powerful tools for promoting social and environmental justice issues.\n\nWhy Police-Involved Deaths in Canada?\nRacism is ingrained in the history of policing in Canada since the founding of the Royal Canadian Mounted Police (RCMP) in 1873. Police play a central tool in Canada’s ongoing genocide of Indigenous people and they work to maintain systems of oppression throughout in Canadian society. Canadian institutions rely on the lack of race based statistics and other demographic information to perpetuate a narrative that systemic racism is “just an American issue” and that Canada is “better”. As a white settler and immigrant from the United States, I fell for that narrative and did not question it for years.\n* We need to have discussions about systemic racism in Canada and make it part of the public discourse in order to hold Canadian institutions accountable."
+  },
+  {
+    "objectID": "index.html#cultural-and-territorial-acknowledgement",
+    "href": "index.html#cultural-and-territorial-acknowledgement",
+    "title": "Open Source GIS",
+    "section": "Cultural and Territorial Acknowledgement",
+    "text": "Cultural and Territorial Acknowledgement\nThe University of British Columbia and the city of Vancouver are on the traditional, ancestral, and unceded territory of the Coast Salish Peoples. Specifically the UBC Vancouver campus is on xʷməθkʷəy̓əm (Musqueam) land. However, Indigenous cultures tend not to have the rigid sense of territorial boundaries that define western nations. This is highlighted in the map below, which shows many overlapping territories in the covering this region.\n\nThere are nearly 200 First Nations spread through BC, and many more across the continent.\n\nIt is essential to recognize Indigenous territories and Indigenous sovereignty, especially within the context of GIS.\nTo learn more about the Indigenous people, culture, and languages where you live and around the world, check out native-land.ca.\n\n\n\n\nWhy Do an Acknowledgement?\nFor centuries, settler societies have perpetuated a genocide against Indigenous people across the globe. In many ways this genocide is still ongoing here in British Columbia and across Canada. There has been concerted effort by the government, religious organizations, and educational institutions to erase Indigenous cultures and identity from both the land and the map. Historically, maps have been used as tools of oppression and we must work to de-colonize our practices in GIS. * A land acknowledgement is one small way to help with that, but it cannot be treated as a formality. It is a time to reflect and build understanding."
   },
   {
     "objectID": "Using_QGIS.html",
@@ -59,15 +73,22 @@
     "objectID": "Using_QGIS.html#setting-up-a-project",
     "href": "Using_QGIS.html#setting-up-a-project",
     "title": "Using QGIS",
-    "section": "Setting up a Project",
-    "text": "Setting up a Project\n\nDownloading the Data\nClick here to download the data for the workshop. Extract the data to your project folder.\n\nTip: I like to start every project in a “clean directory”.\n\nCreate a folder called “GIS_Workshop” in your working directory. This can be any directory, just make sure you remember where it is! In this example, I’m working in C:\nCreate another folder within that called “Data” - this can be where you save all the data for a project\n\nYou can then extract the .zip file you downloaded to “GIS_Workshop\"\n\n\n\n\nOpening QGIS\nYou can then open QGIS, which will create an new “untitled” project. Click Project>Save in the top left, and save the project in “base” of your new project directory.\n\nDon’t save in the data folder. You want your project file to be in the first thing you see when you open a your project."
+    "section": "1 Setting up a Project",
+    "text": "1 Setting up a Project\n\nDownloading the Data\nClick here to download the data for the workshop. Extract the data to your project folder.\n\nTip: I like to start every project in a “clean directory”.\n\nCreate a folder called “GIS_Workshop” in your working directory. This can be any directory, just make sure you remember where it is! In this example, I’m working in C:\nCreate another folder within that called “Data” - this can be where you save all the data for a project\n\nYou can then extract the .zip file you downloaded to “GIS_Workshop\"\n\n\n\n\nOpening QGIS\nYou can then open QGIS, which will create an new “untitled” project. Click Project>Save in the top left, and save the project in “base” of your new project directory.\n\nDon’t save in the data folder. You want your project file to be in the first thing you see when you open a your project."
   },
   {
     "objectID": "Using_QGIS.html#adding-data",
     "href": "Using_QGIS.html#adding-data",
     "title": "Using QGIS",
-    "section": "Adding Data",
-    "text": "Adding Data\nYou should be able to find your project folder in the directory browser.\n\nExpand the Data folder so you can see the contents.\n\n\nTry clicking on BC_subDivs_2022.shp and dragging it to your layers tab.\n\nIf you get an error message, take note of what it says, but ignore it for now.\n\n\nIt is very important to check what coordinate system your data layers are in when import a new layer.\n\nThis is the first thing you should do each time you import a layer.\n\n\n\nImport points from CSV and project to BC Albers\n\nData is in Lat/Long WGS 1984\n\nIntersect points with sub divisions\n\nWe want to count number of incidents per subdivision\n\nCalculate rate of police involved deaths\n\nDivide total deaths per subdivision by total population per subdivision\n\nMap the deaths per subdivision"
+    "section": "2 Adding Data",
+    "text": "2 Adding Data\nYou should be able to find your project folder in the directory browser.\n\nExpand the Data folder so you can see the contents.\n\n\n\nImporting a .shp file\nTry clicking on BC_subDivs_2022.shp and dragging it to your layers tab.\n\nIf you get an error message, take note of what it says, but ignore it for now.\n\n\nIt is very important to check what coordinate system your data layers are in when import a new layer.\n\nThis is the first thing you should do each time you import a layer.\n\n\n\n\nImporting a .csv file\nThe point data (police involved deaths) is stored in a different format. To import it, you must go to Layers>Add Layer>Add Delimited Text Layer. If you try to drag it onto the map the same way you did with the .shp file, it won’t show anything.\n\ncsv: comma separated value format is a tabular data format with values separated by commas. This isn’t a spatial data format, though it can contain spatial data. We just need to go through some extra steps to make it work.\n\nThis file has numerous columns, including point locations (Lat/Long)\nWe need to specify the coordinates (x,y data) and coordinate system (WGS 1984) when importing our data\n\nIf you did the import correctly, the new layer should appear overtop the old, even though the are in different coordinate systems.\n\nThis is know as “project on the fly”"
+  },
+  {
+    "objectID": "Using_QGIS.html#reprojecting-a-layer",
+    "href": "Using_QGIS.html#reprojecting-a-layer",
+    "title": "Using QGIS",
+    "section": "3. Reprojecting a layer",
+    "text": "3. Reprojecting a layer\nThe PID layer is showing point locations that are recorded in Latitude and Longitude using the WGS 1984 coordinate system. This is different than the BC Albers Equal Area projection we are using for the census data layer (BC_subDivs_2022). Its best practice to ensure all data layers are always in the same projection before doing anything else.\n\nProcesses may still run when the layers have different coordinate systems, but the results will be less accurate and the processing will take longer because the software will have to reproject layers on the fly.\n\nIt is easier to just reproject the data once.\n\nSearch the Processing Toolbox for the Reproject function\n\nReprojecting will create a new layer in the desired coordinate system.\nMake sure to reproject the PID_Locations layer\nMake sure to put it in the BC Albers projection\n\nYou can then remove the old PID_locations layer as we don’t need it anymore\n\n\n\nIntersect points with sub divisions\n\nWe want to count number of incidents per subdivision\n\nCalculate rate of police involved deaths\n\nDivide total deaths per subdivision by total population per subdivision\n\nMap the deaths per subdivision"
   },
   {
     "objectID": "WhatIsGIS.html#what-is-gis",

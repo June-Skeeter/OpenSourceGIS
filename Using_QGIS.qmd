@@ -11,7 +11,7 @@ We'll be working with the latest version of QGIS: v 3.28.3 which you can downloa
 
 ![QGIS](/images/QGIS_Download.png)
 
-## Setting up a Project
+## 1 Setting up a Project
 
 ### Downloading the Data
 
@@ -31,16 +31,18 @@ You can then open QGIS, which will create an new "untitled" project.  Click Proj
 
 * Don't save in the data folder.  You want your project file to be in the first thing you see when you open a your project.
 
-![](images/Save_1.png){height=450}
+![](images/Save_1.png){width=850}
 
 
-## Adding Data
+## 2 Adding Data
 
 You should be able to find your project folder in the directory browser.
 
 * Expand the **Data** folder so you can see the contents.
 
 ![](images/Browser.png){height=450}
+
+### Importing a .shp file
 
 Try clicking on BC_subDivs_2022.shp and dragging it to your layers tab.
 
@@ -52,13 +54,36 @@ It is **very** important to check what coordinate system your data layers are in
 
 * This is the first thing you should do each time you import a layer.
 
-
 ![](images/Check_Projection.gif){height=450}
 
 
-3. Import points from CSV and project to BC Albers
+### Importing a .csv file
 
-    * Data is in Lat/Long WGS 1984
+The point data (police involved deaths) is stored in a different format.  To import it, you must go to **Layers>Add Layer>Add Delimited Text Layer**.  If you try to drag it onto the map the same way you did with the .shp file, it won't show anything.
+
+* **csv**: comma separated value format is a tabular data format with values separated by commas.  This isn't a spatial data format, *though it can contain spatial data*.  We just need to go through some extra steps to make it work.
+    * This file has numerous columns, including point locations (Lat/Long)
+    * We need to specify the coordinates (x,y data) and coordinate system (WGS 1984) when importing our data
+* If you did the import correctly, the new layer should appear overtop the old, even though the are in different coordinate systems.
+    * This is know as "project on the fly"
+
+![](images/CSV_Import.gif){height=450}
+
+
+## 3. Reprojecting a layer
+
+The PID layer is showing point locations that are recorded in Latitude and Longitude using the WGS 1984 coordinate system.  This is different than the BC Albers Equal Area projection we are using for the census data layer (BC_subDivs_2022).  Its best practice to ensure **all** data layers are **always** in the **same** projection before doing anything else.
+
+* Processes may still run when the layers have different coordinate systems, but the results will be less accurate and the processing will take longer because the software will have to reproject layers on the fly.
+    * It is easier to just reproject the data **once**.
+* Search the **Processing Toolbox** for the **Reproject** function
+    * Reprojecting will create a new layer in the desired coordinate system.
+    * Make sure to reproject the **PID_Locations** layer
+    * Make sure to put it in the **BC Albers** projection
+* You can then remove the old PID_locations layer as we don't need it anymore
+
+
+![](images/Reproject.gif){height=450}
 
 4. Intersect points with sub divisions
 
