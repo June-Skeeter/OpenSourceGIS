@@ -16,13 +16,13 @@ This workshop provides a short overview of how you can conduct spatial data anal
 ### Learning Objectives
 
 
-2) Import and inspect point (.csv format) and polygon (.shp format) data data in QGIS
+1) Import and inspect point (.csv format) and polygon (.shp format) data data in QGIS
 
-3) Reproject a layer and conduct vector overlay
+2) Reproject a layer and conduct vector overlay
 
-4) Normalize data and calculate a new field
+3) Normalize data and calculate a new field
 
-5) Create a simple map.
+4) Create a simple map.
 
 
 ## Content Warning
