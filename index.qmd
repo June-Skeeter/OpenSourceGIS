@@ -50,5 +50,6 @@ The University of British Columbia and the city of Vancouver are on the traditio
 ### Why Do an Acknowledgement?
 
 For centuries, settler societies have perpetuated a genocide against Indigenous people across the globe.  In many ways this genocide is still ongoing here in British Columbia and across Canada.  There has been concerted effort by the government, religious organizations, and educational institutions to erase Indigenous cultures and identity from both the land and the map.  Historically, maps have been used as tools of oppression and we must work to de-colonize our practices in GIS.
+
 * A land acknowledgement is one small way to help with that, but it cannot be treated as a formality.  It is a time to reflect and build understanding.  
 
